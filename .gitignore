@@ -25,6 +25,7 @@ dist
 .nitro
 .tanstack
 .vinxi
+*.tsbuildinfo
 
 # Debug
 npm-debug.log*

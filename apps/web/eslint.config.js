@@ -1,5 +1,3 @@
-//  @ts-check
+/** @type {import("eslint").Linter.Config[]} */
 
-import { tanstackConfig } from "@tanstack/eslint-config"
-
-export default [...tanstackConfig]
+export { tanstackStartConfig as default } from "@repo/eslint-config/tanstackstart"

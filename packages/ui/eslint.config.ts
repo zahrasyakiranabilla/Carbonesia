@@ -1,3 +1,4 @@
-import { tanstackConfig } from "@tanstack/eslint-config"
+import { config } from "@repo/eslint-config/react-internal";
 
-export default [...tanstackConfig]
+/** @type {import("eslint").Linter.Config[]} */
+export default config;
