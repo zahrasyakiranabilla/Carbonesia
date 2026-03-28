@@ -1,0 +1,11 @@
+{
+  "name": "claude-hooks",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "tsx": "^4.19.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0"
+  }
+}
