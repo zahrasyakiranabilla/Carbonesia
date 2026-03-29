@@ -1,5 +1,9 @@
-module apotek-asasi-api
+module github.com/apotek-asasi/absensi-api
 
-go 1.23.0
+go 1.25.0
 
-require github.com/lib/pq v1.10.9
+require (
+	github.com/golang-jwt/jwt/v5 v5.3.1
+	github.com/lib/pq v1.10.9
+	golang.org/x/crypto v0.49.0
+)

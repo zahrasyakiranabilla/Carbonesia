@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"apotek-asasi-api/internal/database"
+	"github.com/apotek-asasi/absensi-api/internal/database"
 )
 
 type Handler struct {

@@ -8,9 +8,10 @@ import (
 	"syscall"
 	"time"
 
-	"apotek-asasi-api/internal/config"
-	"apotek-asasi-api/internal/database"
-	"apotek-asasi-api/internal/server"
+	"github.com/apotek-asasi/absensi-api/internal/config"
+	"github.com/apotek-asasi/absensi-api/internal/database"
+	"github.com/apotek-asasi/absensi-api/internal/migration"
+	"github.com/apotek-asasi/absensi-api/internal/server"
 )
 
 func main() {
@@ -27,11 +28,25 @@ func main() {
 	}
 	defer db.Close()
 
+	// Run migrations
+	migrationRunner := migration.NewRunner(db.DB, "migrations")
+	if err := migrationRunner.Run(context.Background()); err != nil {
+		log.Fatalf("Failed to run migrations: %v", err)
+	}
+
+	// Setup dependencies
+	deps := server.NewDependencies(cfg, db)
+
 	// Setup server
-	mux := server.RegisterRoutes(db)
+	handler := server.RegisterRoutes(deps)
 
 	// Create HTTP server
-	srv := server.New(server.DefaultConfig(), mux)
+	srv := server.New(server.Config{
+		Port:         cfg.Server.Port,
+		ReadTimeout:  10 * time.Second,
+		WriteTimeout: 10 * time.Second,
+		IdleTimeout:  60 * time.Second,
+	}, handler)
 
 	// Graceful shutdown
 	go func() {

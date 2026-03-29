@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"apotek-asasi-api/internal/config"
+	"github.com/apotek-asasi/absensi-api/internal/config"
 
 	_ "github.com/lib/pq"
 )

@@ -9,6 +9,11 @@ import (
 type Config struct {
 	Server   ServerConfig
 	Database DatabaseConfig
+	Auth     AuthConfig
+}
+
+type AuthConfig struct {
+	JWTSecret string
 }
 
 type ServerConfig struct {
@@ -55,6 +60,9 @@ func Load() (*Config, error) {
 			MaxIdleConns:    maxIdleConns,
 			ConnMaxLifetime: connMaxLifetime,
 			ConnMaxIdleTime: connMaxIdleTime,
+		},
+		Auth: AuthConfig{
+			JWTSecret: getEnv("JWT_SECRET", "dev-secret-change-in-production"),
 		},
 	}, nil
 }

@@ -1,0 +1,54 @@
+package entities
+
+import (
+	"encoding/json"
+	"net/http"
+)
+
+// Response represents a standard API response
+type Response struct {
+	Success bool        `json:"success"`
+	Data    interface{} `json:"data,omitempty"`
+	Error   string      `json:"error,omitempty"`
+}
+
+// WriteJSON writes a JSON response
+func WriteJSON(w http.ResponseWriter, status int, data interface{}) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
+	json.NewEncoder(w).Encode(Response{
+		Success: status < 400,
+		Data:    data,
+	})
+}
+
+// WriteError writes an error response
+func WriteError(w http.ResponseWriter, status int, message string) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
+	json.NewEncoder(w).Encode(Response{
+		Success: false,
+		Error:   message,
+	})
+}
+
+// Common HTTP error helpers
+func BadRequest(w http.ResponseWriter, message string) {
+	WriteError(w, http.StatusBadRequest, message)
+}
+
+func Unauthorized(w http.ResponseWriter, message string) {
+	WriteError(w, http.StatusUnauthorized, message)
+}
+
+func Forbidden(w http.ResponseWriter, message string) {
+	WriteError(w, http.StatusForbidden, message)
+}
+
+func NotFound(w http.ResponseWriter, message string) {
+	WriteError(w, http.StatusNotFound, message)
+}
+
+func InternalError(w http.ResponseWriter, message string) {
+	WriteError(w, http.StatusInternalServerError, message)
+}
