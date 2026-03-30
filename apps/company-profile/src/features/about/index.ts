@@ -1,0 +1,5 @@
+export { AboutHeroSection } from "./components/hero-section"
+export { VisiMisiSection } from "./components/visi-misi-section"
+export { SejarahSection } from "./components/sejarah-section"
+export { ValuesSection } from "./components/values-section"
+export { TimSection } from "./components/tim-section"
