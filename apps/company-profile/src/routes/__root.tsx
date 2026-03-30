@@ -3,6 +3,7 @@ import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
 import appCss from "@repo/ui/globals.css?url"
 import { Navbar } from "../components/navbar"
 import { Footer } from "../components/footer"
+import { TooltipProvider } from "@repo/ui/components/tooltip"
 
 export const Route = createRootRoute({
   head: () => ({
@@ -35,9 +36,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="flex min-h-dvh flex-col">
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <TooltipProvider>
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </TooltipProvider>
         <Scripts />
       </body>
     </html>
