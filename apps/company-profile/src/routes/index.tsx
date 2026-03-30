@@ -1,26 +1,21 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@repo/ui/components/card"
 import { createFileRoute } from "@tanstack/react-router"
 
-export const Route = createFileRoute("/")({ component: UnderConstruction })
+import { HeroSection } from "../features/home/components/hero-section"
+import { KeunggulanSection } from "../features/home/components/keunggulan-section"
+import { LayananSection } from "../features/home/components/layanan-section"
+import { ArtikelSection } from "../features/home/components/artikel-section"
+import { LokasiSection } from "../features/home/components/lokasi-section"
 
-function UnderConstruction() {
+export const Route = createFileRoute("/")({ component: HomePage })
+
+function HomePage() {
   return (
-    <div className="flex min-h-svh items-center justify-center p-6">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <div className="mb-2 text-6xl">🚧</div>
-          <CardTitle>Company Profile</CardTitle>
-        </CardHeader>
-        <CardContent className="text-center text-muted-foreground">
-          <p>This page is under construction.</p>
-          <p className="mt-2 text-sm">Check back soon!</p>
-        </CardContent>
-      </Card>
+    <div className="flex flex-col">
+      <HeroSection />
+      <KeunggulanSection />
+      <LayananSection />
+      <ArtikelSection />
+      <LokasiSection />
     </div>
   )
 }

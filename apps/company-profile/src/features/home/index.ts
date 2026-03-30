@@ -1,0 +1,5 @@
+export { HeroSection } from "./components/hero-section"
+export { KeunggulanSection } from "./components/keunggulan-section"
+export { LayananSection } from "./components/layanan-section"
+export { ArtikelSection } from "./components/artikel-section"
+export { LokasiSection } from "./components/lokasi-section"

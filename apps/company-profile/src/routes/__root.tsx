@@ -1,6 +1,8 @@
 import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
 
 import appCss from "@repo/ui/globals.css?url"
+import { Navbar } from "../components/navbar"
+import { Footer } from "../components/footer"
 
 export const Route = createRootRoute({
   head: () => ({
@@ -13,7 +15,7 @@ export const Route = createRootRoute({
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "TanStack Start Starter",
+        title: "Apotek Asasi",
       },
     ],
     links: [
@@ -32,8 +34,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body>
-        {children}
+      <body className="flex min-h-dvh flex-col">
+        <Navbar />
+        <main className="flex-1">{children}</main>
+        <Footer />
         <Scripts />
       </body>
     </html>
