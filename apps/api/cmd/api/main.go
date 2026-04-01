@@ -12,9 +12,15 @@ import (
 	"github.com/apotek-asasi/absensi-api/internal/database"
 	"github.com/apotek-asasi/absensi-api/internal/migration"
 	"github.com/apotek-asasi/absensi-api/internal/server"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	// Load .env file
+	if err := godotenv.Load(); err != nil {
+		log.Println("No .env file found, using system environment")
+	}
+
 	// Load configuration
 	cfg, err := config.Load()
 	if err != nil {
@@ -22,7 +28,18 @@ func main() {
 	}
 
 	// Database connection
-	db, err := database.NewFromConfig(cfg.Database)
+	// Try DATABASE_URL first (Supabase), fallback to config-based connection
+	var db *database.Database
+	dbMode := os.Getenv("DB_MODE")
+	if dbMode == "supabase" {
+		db, err = database.NewFromURL("")
+		if err != nil {
+			log.Printf("Failed to connect using DATABASE_URL: %v, trying config...", err)
+			db, err = database.NewFromConfig(cfg.Database)
+		}
+	} else {
+		db, err = database.NewFromConfig(cfg.Database)
+	}
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
