@@ -62,7 +62,7 @@ function Navbar({
 function MobileMenu({ links }: { links: NavbarLink[] }) {
   return (
     <Menu.Root>
-      <Menu.Trigger asChild>
+      <Menu.Trigger>
         <Button variant="ghost" size="icon" aria-label="Open menu">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -82,24 +82,23 @@ function MobileMenu({ links }: { links: NavbarLink[] }) {
         </Button>
       </Menu.Trigger>
       <Menu.Portal>
-        <Menu.Positioner>
-          <Menu.Content
+        <Menu.Positioner sideOffset={8}>
+          <Menu.Popup
             className="z-50 min-w-[12rem] overflow-hidden rounded-md border border-border bg-popover p-2 text-popover-foreground shadow-md"
-            sideOffset={8}
           >
             <nav className="flex flex-col gap-1">
               {links.map((link) => (
-                <Menu.Item asChild key={link.href}>
+                <Menu.Item key={link.href}>
                   <a
                     href={link.href}
-                    className="flex items-center rounded-sm px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="flex items-center rounded-sm px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-full"
                   >
                     {link.label}
                   </a>
                 </Menu.Item>
               ))}
             </nav>
-          </Menu.Content>
+          </Menu.Popup>
         </Menu.Positioner>
       </Menu.Portal>
     </Menu.Root>
