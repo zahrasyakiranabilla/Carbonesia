@@ -127,6 +127,9 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
   {isLoading && <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />}
   {isLoading ? 'Saving...' : 'Save'}
 </Button>
+
+// Rendering a Link or other element (use `render` instead of `asChild`)
+<Button variant="ghost" render={<Link to="/email/new"><PencilIcon />Compose</Link>} />
 ```
 
 ### Card Pattern
@@ -231,7 +234,17 @@ const buttonVariants = cva(
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
-  asChild?: boolean;
+  /**
+   * Render a custom element inside the button.
+   * Use this instead of `asChild` when you need to render a different element
+   * (e.g., Link, a, etc.) while maintaining button styling.
+   *
+   * @example
+   * ```tsx
+   * <Button variant="ghost" render={<Link to="/email/new"><PencilIcon />Compose</Link>} />
+   * ```
+   */
+  render?: ReactNode;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
