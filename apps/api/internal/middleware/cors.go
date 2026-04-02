@@ -1,6 +1,8 @@
 package middleware
 
-import "net/http"
+import (
+	"net/http"
+)
 
 // CORS middleware for frontend domains
 // When using credentials (cookies), browsers require a specific origin, not "*"

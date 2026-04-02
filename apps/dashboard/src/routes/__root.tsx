@@ -1,4 +1,5 @@
 import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
+import * as React from "react"
 
 import appCss from "@repo/ui/globals.css?url"
 import { TooltipProvider } from "@repo/ui/components/tooltip"
@@ -26,8 +27,20 @@ export const Route = createRootRoute({
       },
     ],
   }),
+  notFoundComponent: NotFound,
   shellComponent: RootDocument,
 })
+
+function NotFound() {
+  return (
+    <div className="min-h-svh flex items-center justify-center">
+      <div className="text-center">
+        <h1 className="text-2xl font-semibold">404</h1>
+        <p className="text-muted-foreground">Page not found</p>
+      </div>
+    </div>
+  )
+}
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (

@@ -13,7 +13,7 @@ import {
 import { setAccessToken, clearAccessToken, getAccessToken } from "../helpers/token-manager"
 import type { LoginCredentials, LoginResponse, User } from "../types"
 
-const API_BASE_URL = "http://localhost:8080/api"
+const API_BASE_URL = "/api"
 
 /**
  * Login with email and password
@@ -63,12 +63,15 @@ export async function logout(): Promise<void> {
 export async function getCurrentUser(): Promise<User | null> {
   try {
     const response = await authFetch(`${API_BASE_URL}/auth/me`)
+
     if (!response.ok) {
       return null
     }
     const data = await handleApiResponse<{ user: User }>(response)
     return data.user
   } catch {
+    // If it's a session error, return null (will trigger redirect)
+    // The authFetch already attempted refresh before throwing
     return null
   }
 }

@@ -16,7 +16,7 @@ import { Button } from "@repo/ui/components/button"
 import { useAuth } from "../hooks"
 import type { LoginCredentials } from "../types"
 
-export function LoginPage({ redirect = "/" }: { redirect?: string }) {
+export function LoginPage({ redirect }: { redirect?: string }) {
   const navigate = useNavigate()
   const { login } = useAuth()
   const [isLoading, setIsLoading] = React.useState(false)
@@ -24,6 +24,9 @@ export function LoginPage({ redirect = "/" }: { redirect?: string }) {
     email: "",
     password: "",
   })
+
+  // Ensure redirect is always a string
+  const redirectPath = typeof redirect === "string" ? redirect : "/"
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -34,7 +37,7 @@ export function LoginPage({ redirect = "/" }: { redirect?: string }) {
       toast.success("Login berhasil", {
         description: "Selamat datang!",
       })
-      navigate({ to: redirect })
+      navigate({ to: redirectPath })
     } catch (error) {
       if (error instanceof Error) {
         if (error.message.includes("Invalid credentials")) {

@@ -41,7 +41,7 @@ func NewDependencies(cfg *config.Config, db *database.Database) *Dependencies {
 	authService := auth.NewService(userRepo, tokenRepo, cfg.Auth.JWTSecret)
 
 	// Handlers
-	authHandler := auth.NewHandler(authService)
+	authHandler := auth.NewHandler(authService, userRepo, cfg.Auth.JWTSecret)
 	healthHandler := health.NewHandler(db)
 
 	return &Dependencies{
@@ -69,14 +69,15 @@ func RegisterRoutes(deps *Dependencies) http.Handler {
 	mux.HandleFunc("POST /api/auth/logout", deps.AuthHandler.Logout)
 	mux.HandleFunc("POST /api/auth/forgot-password", deps.AuthHandler.ForgotPassword)
 	mux.HandleFunc("POST /api/auth/reset-password", deps.AuthHandler.ResetPassword)
+	mux.HandleFunc("GET /api/auth/me", deps.AuthHandler.GetMe)
 
 	// Protected routes would be added here with middleware:
 	// protected := http.NewServeMux()
 	// protected.HandleFunc("GET /api/users/me", userHandler.GetMe)
 	// mux.Handle("/", middleware.RequireAuth(deps.Config.Auth.JWTSecret)(protected))
 
-	// Apply CORS middleware
-	corsHandler := middleware.CORS([]string{"*"})(mux)
+	// Apply CORS middleware - specific origin for cookie security
+	corsHandler := middleware.CORS([]string{"http://localhost:3002"})(mux)
 
 	return corsHandler
 }

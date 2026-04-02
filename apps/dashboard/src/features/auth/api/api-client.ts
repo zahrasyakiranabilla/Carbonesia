@@ -11,31 +11,19 @@
  */
 
 import {
-  getAccessToken,
-  setAccessToken,
   clearAccessToken,
+  getAccessToken,
   isTokenExpiring,
+  setAccessToken,
 } from "../helpers/token-manager"
 
-const API_BASE_URL = "http://localhost:8080/api"
+const API_BASE_URL = "/api"
 
 /**
  * Global refresh promise for single-flight pattern
  * Only one refresh request runs at a time, other requests queue until it resolves
  */
 let refreshPromise: Promise<string> | null = null
-
-/**
- * Trigger a redirect to login page
- * Called when refresh fails or no token available
- */
-function redirectToLogin(): void {
-  clearAccessToken()
-  // Use window.location for hard redirect to clear all state
-  if (typeof window !== "undefined") {
-    window.location.href = "/login"
-  }
-}
 
 /**
  * Refresh the access token using the refresh token cookie
@@ -58,11 +46,13 @@ async function refreshAccessToken(): Promise<string> {
       })
 
       if (!response.ok) {
-        throw new Error("Refresh failed")
+        throw new Error(`Refresh failed: ${response.status}`)
       }
 
-      const data = await response.json()
-      const newToken = data.access_token
+      const json = await response.json()
+      // Backend wraps responses in { success, data: {...} }
+      const data = json.data
+      const newToken = data.access_token as string
 
       if (!newToken) {
         throw new Error("No access token in refresh response")
@@ -106,7 +96,8 @@ async function cloneRequest(request: Request): Promise<Request> {
  * - Adds Authorization header if token available
  * - Checks token expiration, refreshes if expiring
  * - Handles 401 with one refresh + retry
- * - Redirects to login on refresh failure
+ * - Request replay after refresh (handles body cloning for forms)
+ * - On refresh failure, throws error (caller decides what to do)
  */
 export async function authFetch(
   input: string | URL | Request,
@@ -114,9 +105,7 @@ export async function authFetch(
 ): Promise<Response> {
   // Normalize to Request object
   let request =
-    input instanceof Request
-      ? input
-      : new Request(input.toString(), init)
+    input instanceof Request ? input : new Request(input.toString(), init)
 
   // Track if we've tried refresh for this request (prevent infinite loops)
   let triedRefresh = false
@@ -131,8 +120,8 @@ export async function authFetch(
         const newToken = await refreshAccessToken()
         request = await rebuildRequestWithAuth(request, newToken)
       } catch {
-        // Refresh failed, redirect to login
-        redirectToLogin()
+        // Refresh failed, throw error (caller handles redirect)
+        clearAccessToken()
         throw new Error("Session expired. Please login again.")
       }
     }
@@ -170,8 +159,8 @@ export async function authFetch(
         request = retryRequest
         continue // Loop back to retry
       } catch {
-        // Refresh failed, redirect to login
-        redirectToLogin()
+        // Refresh failed, clear token and throw error (caller handles redirect)
+        clearAccessToken()
         throw new Error("Session expired. Please login again.")
       }
     }
@@ -223,17 +212,20 @@ export class ApiError extends Error {
 
 /**
  * Handle API response, throw on error
+ * Backend wraps responses in { success, data } or { success, error }
  */
 export async function handleApiResponse<T>(response: Response): Promise<T> {
+  const json = await response.json().catch(() => ({}))
+
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}))
     throw new ApiError(
-      errorData.message || `HTTP ${response.status}`,
+      json.error || `HTTP ${response.status}`,
       response.status,
-      errorData.code
     )
   }
-  return response.json()
+
+  // Unwrap the data field from the standard response envelope
+  return json.data as T
 }
 
 /**
@@ -241,7 +233,9 @@ export async function handleApiResponse<T>(response: Response): Promise<T> {
  */
 export const api = {
   get: async <T>(path: string): Promise<T> => {
-    const response = await authFetch(`${API_BASE_URL}${path}`)
+    const response = await authFetch(`${API_BASE_URL}${path}`, {
+      credentials: "include",
+    })
     return handleApiResponse<T>(response)
   },
 
@@ -252,6 +246,7 @@ export const api = {
         "Content-Type": "application/json",
       },
       body: body ? JSON.stringify(body) : undefined,
+      credentials: "include",
     })
     return handleApiResponse<T>(response)
   },
@@ -263,6 +258,7 @@ export const api = {
         "Content-Type": "application/json",
       },
       body: body ? JSON.stringify(body) : undefined,
+      credentials: "include",
     })
     return handleApiResponse<T>(response)
   },
@@ -274,13 +270,14 @@ export const api = {
         "Content-Type": "application/json",
       },
       body: body ? JSON.stringify(body) : undefined,
+      credentials: "include",
     })
     return handleApiResponse<T>(response)
   },
 
   delete: async <T>(path: string): Promise<T> => {
     const response = await authFetch(`${API_BASE_URL}${path}`, {
-      method: "DELETE",
+      credentials: "include",
     })
     return handleApiResponse<T>(response)
   },

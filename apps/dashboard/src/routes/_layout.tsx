@@ -1,28 +1,32 @@
-import { Outlet, createFileRoute, redirect } from "@tanstack/react-router"
+import { Outlet, createFileRoute } from "@tanstack/react-router"
 import { Button } from "@repo/ui/components/button"
-import { hasAccessToken } from "../features/auth"
+import { Separator } from "@repo/ui/components/separator"
 import { useAuth } from "../features/auth/hooks"
+import { Sidebar } from "../components/dashboard/sidebar"
 
 export const Route = createFileRoute("/_layout")({
-  beforeLoad: async ({ location }) => {
-    // Check for auth token in memory
-    // Note: On page refresh, token is lost - use hasAccessToken() to check
-    // The AuthProvider will attempt to restore session via refresh cookie
-    if (!hasAccessToken()) {
-      // Redirect to login with redirect state
-      throw redirect({
-        to: "/login",
-        search: {
-          redirect: location.pathname + location.search || "/",
-        },
-      })
-    }
-  },
   component: DashboardLayout,
 })
 
 function DashboardLayout() {
-  const { logout, user } = useAuth()
+  const { logout, user, isLoading, isAuthenticated } = useAuth()
+
+  // Show loading state while checking auth
+  if (isLoading) {
+    return (
+      <div className="min-h-svh flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="size-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Don't render layout if not authenticated (redirect will happen)
+  if (!isAuthenticated) {
+    return null
+  }
 
   const handleLogout = async () => {
     try {
@@ -37,7 +41,7 @@ function DashboardLayout() {
       <header className="border-b bg-background">
         <div className="flex h-14 items-center justify-between px-4">
           <div className="flex items-center gap-4">
-            <h1 className="text-sm font-semibold">Dashboard</h1>
+            <Sidebar />
           </div>
           <div className="flex items-center gap-4">
             {user && (
@@ -45,15 +49,18 @@ function DashboardLayout() {
                 {user.email}
               </span>
             )}
+            <Separator orientation="vertical" className="h-6" />
             <Button variant="outline" size="sm" onClick={handleLogout}>
               Logout
             </Button>
           </div>
         </div>
       </header>
-      <main className="flex-1 p-4">
-        <Outlet />
-      </main>
+      <div className="flex flex-1">
+        <main className="flex-1 p-6">
+          <Outlet />
+        </main>
+      </div>
     </div>
   )
 }
