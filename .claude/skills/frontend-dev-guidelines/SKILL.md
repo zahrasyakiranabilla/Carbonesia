@@ -1,6 +1,6 @@
 ---
 name: frontend-dev-guidelines
-description: Frontend development guidelines for React/TypeScript applications. Modern patterns including Suspense, lazy loading, useSuspenseQuery, file organization with features directory, shadcn/ui components, Tailwind CSS styling, TanStack Router, performance optimization, and TypeScript best practices. Use when creating components, pages, features, fetching data, styling, routing, or working with frontend code.
+description: Frontend development guidelines for React/TypeScript applications. Modern patterns including Suspense, lazy loading, useSuspenseQuery, file organization with features directory, shadcn/ui components, Tailwind CSS styling, TanStack Router, performance optimization, TypeScript best practices, and kebab-case file naming convention. Use when creating components, pages, features, fetching data, styling, routing, or working with frontend code.
 ---
 
 # Frontend Development Guidelines
@@ -44,14 +44,15 @@ Creating a component? Follow this checklist:
 
 Creating a feature? Set up this structure:
 
-- [ ] Create `features/{feature-name}/` directory
+- [ ] Create `features/{feature-name}/` directory (use kebab-case for naming)
 - [ ] Create subdirectories: `api/`, `components/`, `hooks/`, `helpers/`, `types/`
-- [ ] Create API service file: `api/{feature}Api.ts`
+- [ ] Create API service file: `api/{feature-name}Api.ts` (kebab-case, e.g., `auth-api.ts`)
 - [ ] Set up TypeScript types in `types/`
 - [ ] Create route in `routes/{feature-name}/index.tsx`
 - [ ] Lazy load feature components
 - [ ] Use Suspense boundaries
 - [ ] Export public API from feature `index.ts`
+- [ ] Name all files in kebab-case (e.g., `login-page.tsx`, `use-auth.tsx`)
 
 ---
 
@@ -61,7 +62,7 @@ Creating a feature? Set up this structure:
 |-------|-------------|---------|
 | `@/` | `src/` | `import { fetcher } from '@/lib/fetcher'` |
 | `~types` | `src/types` | `import type { User } from '~types/user'` |
-| `~components` | `src/components` | `import { SuspenseLoader } from '~components/SuspenseLoader'` |
+| `~components` | `src/components` | `import { SuspenseLoader } from '~components/suspense-loader'` |
 | `~features` | `src/features` | `import { authApi } from '~features/auth'` |
 
 Defined in: [vite.config.ts](../../vite.config.ts) lines 180-185
@@ -73,7 +74,7 @@ Defined in: [vite.config.ts](../../vite.config.ts) lines 180-185
 ```typescript
 // React & Lazy Loading
 import React, { useState, useCallback, useMemo } from 'react';
-const Heavy = React.lazy(() => import('./Heavy'));
+const Heavy = React.lazy(() => import('./heavy-component'));
 
 // shadcn/ui Components
 import { Button } from '@/components/ui/button';
@@ -87,15 +88,17 @@ import { useSuspenseQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 
 // Project Components
-import { SuspenseLoader } from '~components/SuspenseLoader';
+import { SuspenseLoader } from '~components/suspense-loader';
 
 // Hooks
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/use-auth';
 import { toast } from 'sonner';
 
 // Types
 import type { Post } from '~types/post';
 ```
+
+**Note:** All files use kebab-case naming (e.g., `heavy-component.tsx`, `use-auth.tsx`)
 
 ---
 
@@ -139,6 +142,11 @@ import type { Post } from '~types/post';
 
 ### 📁 File Organization
 
+**Naming Convention: Kebab-Case**
+- All files and folders should use kebab-case naming
+- Examples: `login-page.tsx`, `use-auth.tsx`, `auth-api.ts`, `my-feature/`
+- Avoid: PascalCase (`LoginPage.tsx`), camelCase (`useAuth.tsx`), snake_case (`use_auth.tsx`)
+
 **features/ vs components/:**
 - `features/`: Domain-specific (posts, comments, auth)
 - `components/`: Truly reusable (SuspenseLoader, CustomAppBar)
@@ -146,12 +154,17 @@ import type { Post } from '~types/post';
 **Feature Subdirectories:**
 ```
 features/
-  my-feature/
-    api/          # API service layer
-    components/   # Feature components
-    hooks/        # Custom hooks
-    helpers/      # Utility functions
-    types/        # TypeScript types
+  my-feature/         # kebab-case folder name
+    api/
+      my-feature-api.ts    # kebab-case file name
+    components/
+      login-page.tsx       # kebab-case file name
+    hooks/
+      use-auth.tsx         # kebab-case file name
+    helpers/
+      auth-helpers.ts
+    types/
+      index.ts
 ```
 
 **[📖 Complete Guide: resources/file-organization.md](resources/file-organization.md)**
@@ -184,7 +197,7 @@ features/
 ### 🛣️ Routing
 
 **TanStack Router - Folder-Based:**
-- Directory: `routes/my-route/index.tsx`
+- Directory: `routes/my-route/index.tsx` (kebab-case naming)
 - Lazy load components
 - Use `createFileRoute`
 - Breadcrumb data in loader
@@ -194,7 +207,7 @@ features/
 import { createFileRoute } from '@tanstack/react-router';
 import { lazy } from 'react';
 
-const MyPage = lazy(() => import('@/features/my-feature/components/MyPage'));
+const MyPage = lazy(() => import('@/features/my-feature/components/my-page'));
 
 export const Route = createFileRoute('/my-route/')({
     component: MyPage,
@@ -319,32 +332,32 @@ if (isLoading) {
 ```
 src/
   features/
-    my-feature/
+    my-feature/         # kebab-case naming
       api/
-        myFeatureApi.ts       # API service
+        my-feature-api.ts   # kebab-case naming
       components/
-        MyFeature.tsx         # Main component
-        SubComponent.tsx      # Related components
+        my-component.tsx    # kebab-case naming
+        sub-component.tsx
       hooks/
-        useMyFeature.ts       # Custom hooks
-        useSuspenseMyFeature.ts  # Suspense hooks
+        use-my-hook.tsx     # kebab-case naming
+        use-suspense-my-feature.tsx
       helpers/
-        myFeatureHelpers.ts   # Utilities
+        my-feature-helpers.ts
       types/
-        index.ts              # TypeScript types
-      index.ts                # Public exports
+        index.ts
+      index.ts              # Public exports
 
   components/
-    SuspenseLoader/
-      SuspenseLoader.tsx      # Reusable loader
-    CustomAppBar/
-      CustomAppBar.tsx        # Reusable app bar
+    suspense-loader/
+      suspense-loader.tsx   # kebab-case naming
+    custom-app-bar/
+      custom-app-bar.tsx
 
   routes/
     my-route/
-      index.tsx               # Route component
+      index.tsx             # Route component
       create/
-        index.tsx             # Nested route
+        index.tsx           # Nested route
 ```
 
 ---
@@ -356,7 +369,7 @@ import React, { useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { featureApi } from '../api/featureApi';
+import { featureApi } from '../api/feature-api';
 import { toast } from 'sonner';
 import type { FeatureData } from '~types/feature';
 
@@ -394,6 +407,8 @@ export const MyComponent: React.FC<MyComponentProps> = ({ id, onAction }) => {
 
 export default MyComponent;
 ```
+
+**Note:** File should be named `my-component.tsx` (kebab-case)
 
 For complete examples, see [resources/complete-examples.md](resources/complete-examples.md)
 
