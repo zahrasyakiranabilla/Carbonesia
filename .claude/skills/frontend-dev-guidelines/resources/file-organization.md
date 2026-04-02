@@ -130,15 +130,15 @@ features/
 **Pattern:**
 ```typescript
 // features/my-feature/api/myFeatureApi.ts
-import apiClient from '@/lib/apiClient';
+import { fetcher } from '@/lib/fetcher';
 
 export const myFeatureApi = {
     getItem: async (id: number) => {
-        const { data } = await apiClient.get(`/blog/items/${id}`);
+        const data = await fetcher.get(`/blog/items/${id}`);
         return data;
     },
     createItem: async (payload) => {
-        const { data } = await apiClient.post('/blog/items', payload);
+        const data = await fetcher.post('/blog/items', payload);
         return data;
     },
 };
@@ -228,7 +228,7 @@ From `vite.config.ts` lines 180-185:
 
 ```typescript
 // ✅ PREFERRED - Use aliases for absolute imports
-import { apiClient } from '@/lib/apiClient';
+import { fetcher } from '@/lib/fetcher';
 import { SuspenseLoader } from '~components/SuspenseLoader';
 import { postApi } from '~features/posts/api/postApi';
 import type { User } from '~types/user';
@@ -236,14 +236,14 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 
 // ❌ AVOID - Relative paths from deep nesting
-import { apiClient } from '../../../lib/apiClient';
+import { fetcher } from '../../../lib/fetcher';
 import { SuspenseLoader } from '../../../components/SuspenseLoader';
 ```
 
 ### When to Use Which Alias
 
 **@/ (General)**:
-- Lib utilities: `@/lib/apiClient`
+- Lib utilities: `@/lib/fetcher`
 - Hooks: `@/hooks/useAuth`
 - Config: `@/config/theme`
 - Shared services: `@/services/authService`
@@ -385,7 +385,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
 // 4. Alias imports (@ first, then ~)
-import { apiClient } from '@/lib/apiClient';
+import { fetcher } from '@/lib/fetcher';
 import { useAuth } from '@/hooks/useAuth';
 import { SuspenseLoader } from '~components/SuspenseLoader';
 import { postApi } from '~features/posts/api/postApi';
@@ -473,7 +473,7 @@ src/
 │   └── useDebounce.ts
 │
 ├── lib/                         # Shared utilities
-│   ├── apiClient.ts
+│   ├── fetcher.ts
 │   └── utils.ts
 │
 ├── components/ui/               # shadcn/ui components

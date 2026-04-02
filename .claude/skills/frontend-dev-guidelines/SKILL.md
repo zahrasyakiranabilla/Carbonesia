@@ -59,7 +59,7 @@ Creating a feature? Set up this structure:
 
 | Alias | Resolves To | Example |
 |-------|-------------|---------|
-| `@/` | `src/` | `import { apiClient } from '@/lib/apiClient'` |
+| `@/` | `src/` | `import { fetcher } from '@/lib/fetcher'` |
 | `~types` | `src/types` | `import type { User } from '~types/user'` |
 | `~components` | `src/components` | `import { SuspenseLoader } from '~components/SuspenseLoader'` |
 | `~features` | `src/features` | `import { authApi } from '~features/auth'` |
@@ -129,7 +129,7 @@ import type { Post } from '~types/post';
 
 **API Service Layer:**
 - Create `features/{feature}/api/{feature}Api.ts`
-- Use `apiClient` axios instance
+- Use `fetcher` utility or native `fetch`
 - Centralized methods per feature
 - Route format: `/form/route` (NOT `/api/form/route`)
 

@@ -170,32 +170,32 @@ features/
 ### API Service (userApi.ts)
 
 ```typescript
-import apiClient from '@/lib/apiClient';
+import { fetcher } from '@/lib/fetcher';
 import type { User, CreateUserPayload, UpdateUserPayload } from '../types';
 
 export const userApi = {
     getUser: async (userId: string): Promise<User> => {
-        const { data } = await apiClient.get(`/users/${userId}`);
+        const data = await fetcher.get(`/users/${userId}`);
         return data;
     },
 
     getUsers: async (): Promise<User[]> => {
-        const { data } = await apiClient.get('/users');
+        const data = await fetcher.get('/users');
         return data;
     },
 
     createUser: async (payload: CreateUserPayload): Promise<User> => {
-        const { data } = await apiClient.post('/users', payload);
+        const data = await fetcher.post('/users', payload);
         return data;
     },
 
     updateUser: async (userId: string, payload: UpdateUserPayload): Promise<User> => {
-        const { data } = await apiClient.put(`/users/${userId}`, payload);
+        const data = await fetcher.put(`/users/${userId}`, payload);
         return data;
     },
 
     deleteUser: async (userId: string): Promise<void> => {
-        await apiClient.delete(`/users/${userId}`);
+        await fetcher.delete(`/users/${userId}`);
     },
 };
 ```

@@ -69,7 +69,7 @@ function handleUnknown(data: unknown) {
 ```typescript
 // ✅ CORRECT - Explicit return type
 function getUser(id: number): Promise<User> {
-    return apiClient.get(`/users/${id}`);
+    return fetcher.get(`/users/${id}`);
 }
 
 function calculateTotal(items: Item[]): number {
@@ -78,7 +78,7 @@ function calculateTotal(items: Item[]): number {
 
 // ❌ AVOID - Implicit return type (less clear)
 function getUser(id: number) {
-    return apiClient.get(`/users/${id}`);
+    return fetcher.get(`/users/${id}`);
 }
 ```
 

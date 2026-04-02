@@ -213,9 +213,9 @@ features/
 ```typescript
 /**
  * Centralized API service for my-feature operations
- * Uses apiClient for consistent error handling
+ * Uses fetcher for consistent error handling
  */
-import apiClient from '@/lib/apiClient';
+import { fetcher } from '@/lib/fetcher';
 import type { MyEntity, UpdatePayload } from '../types';
 
 export const myFeatureApi = {
@@ -223,7 +223,7 @@ export const myFeatureApi = {
      * Fetch a single entity
      */
     getEntity: async (blogId: number, entityId: number): Promise<MyEntity> => {
-        const { data } = await apiClient.get(
+        const data = await fetcher.get(
             `/blog/entities/${blogId}/${entityId}`
         );
         return data;
@@ -233,7 +233,7 @@ export const myFeatureApi = {
      * Fetch all entities for a form
      */
     getEntities: async (blogId: number, view: 'summary' | 'flat'): Promise<MyEntity[]> => {
-        const { data } = await apiClient.get(
+        const data = await fetcher.get(
             `/blog/entities/${blogId}`,
             { params: { view } }
         );
@@ -248,7 +248,7 @@ export const myFeatureApi = {
         entityId: number,
         payload: UpdatePayload
     ): Promise<MyEntity> => {
-        const { data } = await apiClient.put(
+        const data = await fetcher.put(
             `/blog/entities/${blogId}/${entityId}`,
             payload
         );
@@ -259,17 +259,17 @@ export const myFeatureApi = {
      * Delete entity
      */
     deleteEntity: async (blogId: number, entityId: number): Promise<void> => {
-        await apiClient.delete(`/blog/entities/${blogId}/${entityId}`);
+        await fetcher.delete(`/blog/entities/${blogId}/${entityId}`);
     },
 };
 ```
 
 **Key Points:**
 - Export single object with methods
-- Use `apiClient` (axios instance from `@/lib/apiClient`)
+- Use `fetcher` (fetch utility from `@/lib/fetcher`)
 - Type-safe parameters and returns
 - JSDoc comments for each method
-- Centralized error handling (apiClient handles it)
+- Centralized error handling (fetcher handles it)
 
 ---
 
@@ -279,14 +279,14 @@ export const myFeatureApi = {
 
 ```typescript
 // ✅ CORRECT - Direct service path
-await apiClient.get('/blog/posts/123');
-await apiClient.post('/projects/create', data);
-await apiClient.put('/users/update/456', updates);
-await apiClient.get('/email/templates');
+await fetcher.get('/blog/posts/123');
+await fetcher.post('/projects/create', data);
+await fetcher.put('/users/update/456', updates);
+await fetcher.get('/email/templates');
 
 // ❌ WRONG - Do NOT add /api/ prefix
-await apiClient.get('/api/blog/posts/123');  // WRONG!
-await apiClient.post('/api/projects/create', data); // WRONG!
+await fetcher.get('/api/blog/posts/123');  // WRONG!
+await fetcher.post('/api/projects/create', data); // WRONG!
 ```
 
 **Microservice Routing:**
@@ -444,12 +444,12 @@ const { data: settings } = useSuspenseQuery({
 
 ## API Client Configuration
 
-### Using apiClient
+### Using fetcher
 
 ```typescript
-import apiClient from '@/lib/apiClient';
+import { fetcher } from '@/lib/fetcher';
 
-// apiClient is a configured axios instance
+// fetcher is a configured fetch utility
 // Automatically includes:
 // - Base URL configuration
 // - Cookie-based authentication
@@ -457,7 +457,7 @@ import apiClient from '@/lib/apiClient';
 // - Response transformers
 ```
 
-**Do NOT create new axios instances** - use apiClient for consistency.
+**Do NOT create new fetch instances** - use fetcher for consistency.
 
 ---
 
@@ -753,7 +753,7 @@ useSuspenseQuery({
 
 **Modern Data Fetching Recipe:**
 
-1. **Create API Service**: `features/X/api/XApi.ts` using apiClient
+1. **Create API Service**: `features/X/api/XApi.ts` using fetcher
 2. **Use useSuspenseQuery**: In components wrapped by SuspenseLoader
 3. **Cache-First**: Check grid cache before API call
 4. **Query Keys**: Consistent naming ['entity', id]
