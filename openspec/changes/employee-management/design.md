@@ -64,6 +64,31 @@ Fitur manajemen karyawan perlu ditambahkan untuk memungkinkan admin mengelola ak
 
 **Rationale:** Hubungan user-branch sudah ada di model, perlu memanfaatkan.
 
+### 5. Paginated Response Helper
+
+**Decision:** Menggunakan format response `{ data: [...], meta: {...} }` untuk semua list endpoint
+
+**Response Structure:**
+```go
+type PaginatedResponse struct {
+    Data interface{}     `json:"data"`
+    Meta *PaginationMeta `json:"meta"`
+}
+
+type PaginationMeta struct {
+    Page       int `json:"page"`
+    Limit      int `json:"limit"`
+    Total      int `json:"total"`
+    TotalPages int `json:"total_pages"`
+}
+```
+
+**Alternatives considered:**
+- Flat structure dengan fields langsung di response - tidak konsisten
+- Menggunakan array langsung - tidak ada metadata
+
+**Rationale:** Format `data` + `meta` lebih konsisten dan memungkinkan frontend easily handle pagination.
+
 ## Risks / Trade-offs
 
 - [Risk] Admin bisa menonaktifkan akun dirinya sendiri → Mitigation: Validasi di backend, tidak izinkan deactivate jika userID sama dengan yang melakukan request
