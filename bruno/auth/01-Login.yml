@@ -1,0 +1,46 @@
+info:
+  name: 01 Login
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{baseUrl}}/api/auth/login"
+  body:
+    type: json
+    data: |-
+      {
+        "email": "{{email}}",
+        "password": "{{password}}"
+      }
+  headers:
+    Content-Type: application/json
+
+vars:
+  - name: accessToken
+    value: ""
+    type: string
+  - name: refreshToken
+    value: ""
+    type: string
+
+script:
+  preRequest: |
+    console.log("Logging in...");
+
+  postResponse: |
+    if (res.status === 200) {
+      const body = res.body;
+      if (body.access_token) {
+        bru.setVar("accessToken", body.access_token);
+      }
+      if (body.refresh_token) {
+        bru.setVar("refreshToken", body.refresh_token);
+      }
+    }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

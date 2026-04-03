@@ -1,0 +1,29 @@
+name: Development
+variables:
+  - name: baseUrl
+    value: http://localhost:8080
+    enabled: true
+  - name: email
+    value: admin@apotekasasi.com
+    enabled: true
+  - name: password
+    value: admin123
+    enabled: true
+  - name: name
+    value: Admin User
+    enabled: true
+  - name: role
+    value: admin
+    enabled: true
+  - name: active
+    value: true
+    enabled: true
+  - name: userId
+    value: ""
+    enabled: true
+  - name: newPassword
+    value: ""
+    enabled: true
+  - name: resetToken
+    value: ""
+    enabled: true

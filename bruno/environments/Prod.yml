@@ -1,0 +1,29 @@
+name: Production
+variables:
+  - name: baseUrl
+    value: https://api.apotekasasi.com
+    enabled: true
+  - name: email
+    value: ""
+    enabled: true
+  - name: password
+    value: ""
+    enabled: true
+  - name: name
+    value: ""
+    enabled: true
+  - name: role
+    value: admin
+    enabled: true
+  - name: active
+    value: true
+    enabled: true
+  - name: userId
+    value: ""
+    enabled: true
+  - name: newPassword
+    value: ""
+    enabled: true
+  - name: resetToken
+    value: ""
+    enabled: true

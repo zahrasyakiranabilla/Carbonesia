@@ -1,0 +1,14 @@
+info:
+  name: 04 Activate User
+  type: http
+  seq: 4
+
+http:
+  method: PATCH
+  url: "{{baseUrl}}/api/v1/admin/users/{{userId}}/activate"
+  headers:
+    Authorization: "Bearer {{accessToken}}"
+    Content-Type: application/json
+
+settings:
+  encodeUrl: true

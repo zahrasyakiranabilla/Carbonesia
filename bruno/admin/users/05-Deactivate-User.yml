@@ -1,0 +1,14 @@
+info:
+  name: 05 Deactivate User
+  type: http
+  seq: 5
+
+http:
+  method: PATCH
+  url: "{{baseUrl}}/api/v1/admin/users/{{userId}}/deactivate"
+  headers:
+    Authorization: "Bearer {{accessToken}}"
+    Content-Type: application/json
+
+settings:
+  encodeUrl: true

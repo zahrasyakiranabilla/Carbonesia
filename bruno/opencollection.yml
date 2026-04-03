@@ -1,10 +1,22 @@
 opencollection: 1.0.0
 
 info:
-  name: Apotek Asasi
-bundled: false
+  name: Apotek Asasi API
+  bundled: false
 extensions:
   bruno:
     ignore:
       - node_modules
       - .git
+
+environments:
+  - name: Development
+    file: environments/Dev.yml
+  - name: Production
+    file: environments/Prod.yml
+
+folders:
+  - name: auth
+    path: auth
+  - name: admin/users
+    path: admin/users
