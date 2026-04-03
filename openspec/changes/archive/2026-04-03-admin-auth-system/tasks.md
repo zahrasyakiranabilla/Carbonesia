@@ -50,7 +50,7 @@
 ## 8. Integration & Testing
 
 - [x] 8.1 Wrap app root with `AuthProvider` in `__root.tsx`
-- [ ] 8.2 Test login flow: invalid credentials, valid credentials, network errors
-- [ ] 8.3 Test protected route: authenticated access, unauthenticated redirect
-- [ ] 8.4 Test session persistence: refresh, close/reopen browser
-- [ ] 8.5 Test logout flow: normal logout, API failure handling
+- [x] 8.2 Test login flow: invalid credentials, valid credentials, network errors
+- [x] 8.3 Test protected route: authenticated access, unauthenticated redirect
+- [x] 8.4 Test session persistence: refresh, close/reopen browser
+- [x] 8.5 Test logout flow: normal logout, API failure handling
