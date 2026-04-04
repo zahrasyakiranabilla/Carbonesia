@@ -1,8 +1,7 @@
+/* eslint-disable react/no-children-prop */
 "use client"
 
-import * as React from "react"
-import { useNavigate } from "@tanstack/react-router"
-import { toast } from "sonner"
+import { Button } from "@repo/ui/components/button"
 import {
   Card,
   CardContent,
@@ -10,67 +9,70 @@ import {
   CardHeader,
   CardTitle,
 } from "@repo/ui/components/card"
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@repo/ui/components/field"
 import { Input } from "@repo/ui/components/input"
-import { Label } from "@repo/ui/components/label"
-import { Button } from "@repo/ui/components/button"
+import { useForm } from "@tanstack/react-form"
+import { useNavigate } from "@tanstack/react-router"
+import { toast } from "sonner"
+
 import { useAuth } from "../hooks"
+import { loginSchema } from "../schemas/login-schema"
 import type { LoginCredentials } from "../types"
 
 export function LoginPage({ redirect }: { redirect?: string }) {
   const navigate = useNavigate()
   const { login } = useAuth()
-  const [isLoading, setIsLoading] = React.useState(false)
-  const [credentials, setCredentials] = React.useState<LoginCredentials>({
-    email: "",
-    password: "",
-  })
 
-  // Ensure redirect is always a string
   const redirectPath = typeof redirect === "string" ? redirect : "/"
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-
-    try {
-      await login(credentials)
-      toast.success("Login berhasil", {
-        description: "Selamat datang!",
-      })
-      navigate({ to: redirectPath })
-    } catch (error) {
-      if (error instanceof Error) {
-        if (error.message.includes("Invalid credentials")) {
-          toast.error("Kredensial tidak valid", {
-            description: "Periksa email dan kata sandi Anda.",
-          })
-        } else if (error.message.includes("Unable to connect") || error.message.includes("fetch")) {
-          toast.error("Kesalahan koneksi", {
-            description: "Tidak dapat terhubung. Silakan coba lagi.",
-          })
+  const form = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    validators: {
+      onSubmit: loginSchema,
+    },
+    onSubmit: async ({ value }) => {
+      try {
+        await login(value as LoginCredentials)
+        toast.success("Login berhasil", {
+          description: "Selamat datang!",
+        })
+        navigate({ to: redirectPath })
+      } catch (error) {
+        if (error instanceof Error) {
+          if (error.message.includes("Invalid credentials")) {
+            toast.error("Kredensial tidak valid", {
+              description: "Periksa email dan kata sandi Anda.",
+            })
+          } else if (
+            error.message.includes("Unable to connect") ||
+            error.message.includes("fetch")
+          ) {
+            toast.error("Kesalahan koneksi", {
+              description: "Tidak dapat terhubung. Silakan coba lagi.",
+            })
+          } else {
+            toast.error("Login gagal", {
+              description: error.message,
+            })
+          }
         } else {
           toast.error("Login gagal", {
-            description: error.message,
+            description: "Terjadi kesalahan yang tidak diharapkan.",
           })
         }
-      } else {
-        toast.error("Login gagal", {
-          description: "Terjadi kesalahan yang tidak diharapkan.",
-        })
       }
-      setCredentials((prev) => ({ ...prev, password: "" }))
-    } finally {
-      setIsLoading(false)
-    }
-  }
+    },
+  })
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCredentials((prev) => ({ ...prev, email: e.target.value }))
-  }
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCredentials((prev) => ({ ...prev, password: e.target.value }))
-  }
+  const isLoading = form.state.isSubmitting
 
   return (
     <div className="flex min-h-svh items-center justify-center p-6">
@@ -82,47 +84,86 @@ export function LoginPage({ redirect }: { redirect?: string }) {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="admin@contoh.com"
-                value={credentials.email}
-                onChange={handleEmailChange}
-                disabled={isLoading}
-                required
-                autoComplete="email"
+          <form
+            id="login-form"
+            onSubmit={(e) => {
+              e.preventDefault()
+              form.handleSubmit()
+            }}
+          >
+            <FieldGroup>
+              <form.Field
+                name="email"
+                children={(field) => {
+                  const isInvalid =
+                    field.state.meta.isTouched && !field.state.meta.isValid
+                  return (
+                    <Field data-invalid={isInvalid}>
+                      <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        type="email"
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        placeholder="admin@contoh.com"
+                        disabled={isLoading}
+                        aria-invalid={isInvalid}
+                        autoComplete="email"
+                      />
+                      {isInvalid && (
+                        <FieldError errors={field.state.meta.errors} />
+                      )}
+                    </Field>
+                  )
+                }}
               />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="password">Kata Sandi</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Masukkan kata sandi Anda"
-                value={credentials.password}
-                onChange={handlePasswordChange}
-                disabled={isLoading}
-                required
-                autoComplete="current-password"
+
+              <form.Field
+                name="password"
+                children={(field) => {
+                  const isInvalid =
+                    field.state.meta.isTouched && !field.state.meta.isValid
+                  return (
+                    <Field data-invalid={isInvalid}>
+                      <FieldLabel htmlFor={field.name}>Kata Sandi</FieldLabel>
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        type="password"
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        placeholder="Masukkan kata sandi Anda"
+                        disabled={isLoading}
+                        aria-invalid={isInvalid}
+                        autoComplete="current-password"
+                      />
+                      {isInvalid && (
+                        <FieldError errors={field.state.meta.errors} />
+                      )}
+                    </Field>
+                  )
+                }}
               />
-            </div>
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <span className="flex items-center gap-2">
-                  <span className="size-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                  Masuk...
-                </span>
-              ) : (
-                "Masuk"
-              )}
-            </Button>
+
+              <Button
+                type="submit"
+                form="login-form"
+                className="w-full"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <span className="flex items-center gap-2">
+                    <span className="size-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                    Masuk...
+                  </span>
+                ) : (
+                  "Masuk"
+                )}
+              </Button>
+            </FieldGroup>
           </form>
         </CardContent>
       </Card>

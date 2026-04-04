@@ -39,6 +39,7 @@ Creating a component? Follow this checklist:
 - [ ] Default export at bottom
 - [ ] No early returns with loading spinners
 - [ ] Use `toast` from sonner for user notifications
+- [ ] Forms: Use TanStack Form + Zod (see Form Conventions below)
 
 ### New Feature Checklist
 
@@ -218,6 +219,8 @@ features/
       use-auth.tsx         # kebab-case file name
     helpers/
       auth-helpers.ts
+    schemas/
+      auth-schema.ts       # Zod schemas for validation
     types/
       index.ts
 ```
@@ -336,13 +339,290 @@ if (isLoading) {
 
 **Covered Topics:**
 
-- React Hook Form with Zod validation
+- TanStack Form with Zod validation (see below)
 - DataGrid wrapper contracts
 - Dialog component standards
 - `useAuth` hook for current user
 - Mutation patterns with cache invalidation
 
 **[📖 Complete Guide: resources/common-patterns.md](resources/common-patterns.md)**
+
+---
+
+### 📝 Form Conventions (TanStack Form + Zod)
+
+**REQUIRED: All forms must use TanStack Form with Zod validation**
+
+This project uses `@tanstack/react-form` for form state management and `zod` for schema validation. All forms must follow these conventions.
+
+#### 1. Zod Schema Location
+
+Create a `schemas/` directory in your feature folder and define Zod schemas:
+
+```
+features/
+  employee/
+    schemas/
+      employee-schema.ts   # Zod schemas for employee forms
+    components/
+      employee-form.tsx
+```
+
+#### 2. Zod Schema Pattern
+
+```typescript
+import * as z from "zod"
+
+export const createEmployeeSchema = z.object({
+  name: z
+    .string()
+    .min(1, "Nama wajib diisi")
+    .min(3, "Nama minimal 3 karakter")
+    .max(100, "Nama maksimal 100 karakter"),
+  email: z
+    .string()
+    .min(1, "Email wajib diisi")
+    .email("Format email tidak valid"),
+  password: z
+    .string()
+    .min(1, "Password wajib diisi")
+    .min(8, "Password minimal 8 karakter"),
+})
+
+export type CreateEmployeeFormValues = z.infer<typeof createEmployeeSchema>
+```
+
+#### 3. TanStack Form Implementation
+
+```tsx
+/* eslint-disable react/no-children-prop */
+"use client"
+
+import { Button } from "@repo/ui/components/button"
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@repo/ui/components/field"
+import { Input } from "@repo/ui/components/input"
+import { useForm } from "@tanstack/react-form"
+
+import { createEmployeeSchema } from "../schemas/employee-schema"
+import type { CreateEmployeeFormValues } from "../schemas/employee-schema"
+
+export function EmployeeForm({ onSubmit }: EmployeeFormProps) {
+  const form = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
+    validators: {
+      onSubmit: createEmployeeSchema,
+    },
+    onSubmit: async ({ value }) => {
+      await onSubmit(value as CreateEmployeeFormValues)
+    },
+  })
+
+  return (
+    <form
+      id="employee-form"
+      onSubmit={(e) => {
+        e.preventDefault()
+        form.handleSubmit()
+      }}
+    >
+      <FieldGroup>
+        <form.Field
+          name="name"
+          children={(field) => {
+            const isInvalid =
+              field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>Nama Lengkap</FieldLabel>
+                <Input
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={isInvalid}
+                  placeholder="Masukkan nama lengkap"
+                />
+                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+              </Field>
+            )
+          }}
+        />
+
+        <form.Field
+          name="email"
+          children={(field) => {
+            const isInvalid =
+              field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+                <Input
+                  id={field.name}
+                  name={field.name}
+                  type="email"
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={isInvalid}
+                  placeholder="nama@email.com"
+                />
+                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+              </Field>
+            )
+          }}
+        />
+      </FieldGroup>
+
+      <Button type="submit" form="employee-form">
+        Submit
+      </Button>
+    </form>
+  )
+}
+```
+
+#### 4. Required Components
+
+Always use these shadcn/ui components for forms:
+
+| Component          | Purpose                                        |
+| ------------------ | ---------------------------------------------- |
+| `Field`            | Wraps form field with layout and error styling |
+| `FieldLabel`       | Label for form inputs                          |
+| `FieldError`       | Displays validation errors                     |
+| `FieldGroup`       | Groups multiple fields                         |
+| `FieldDescription` | Helper text below input                        |
+| `Input`            | Text input component                           |
+| `Textarea`         | Multi-line text input                          |
+| `Select`           | Dropdown select                                |
+| `Checkbox`         | Checkbox input                                 |
+| `Switch`           | Toggle switch                                  |
+
+#### 5. Form Validation Rules
+
+- **Client-side validation**: Use Zod schema with `validators: { onSubmit: schema }`
+- **Validation mode**: Triggers on submit by default
+- **Error display**: Show errors only when field is touched (`isTouched`) and invalid (`!isValid`)
+- **Accessibility**: Add `aria-invalid={isInvalid}` to all form inputs
+- **Accessibility**: Add `data-invalid={isInvalid}` to `Field` component
+
+#### 6. Field Pattern
+
+```tsx
+<form.Field
+  name="fieldName"
+  children={(field) => {
+    const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+    return (
+      <Field data-invalid={isInvalid}>
+        <FieldLabel htmlFor={field.name}>Label Text</FieldLabel>
+        <Input
+          id={field.name}
+          name={field.name}
+          value={field.state.value}
+          onBlur={field.handleBlur}
+          onChange={(e) => field.handleChange(e.target.value)}
+          aria-invalid={isInvalid}
+        />
+        <FieldDescription>Helper text here</FieldDescription>
+        {isInvalid && <FieldError errors={field.state.meta.errors} />}
+      </Field>
+    )
+  }}
+/>
+```
+
+#### 7. Select/Checkbox/Switch Pattern
+
+For Select, Checkbox, and Switch components, use `onValueChange` instead of `onChange`:
+
+```tsx
+// Select
+<Select
+  name={field.name}
+  value={field.state.value}
+  onValueChange={field.handleChange}
+>
+  <SelectTrigger aria-invalid={isInvalid}>
+    <SelectValue placeholder="Select" />
+  </SelectTrigger>
+  <SelectContent>...</SelectContent>
+</Select>
+
+// Checkbox
+<Checkbox
+  name={field.name}
+  checked={field.state.value}
+  onCheckedChange={field.handleChange}
+  aria-invalid={isInvalid}
+/>
+
+// Switch
+<Switch
+  name={field.name}
+  checked={field.state.value}
+  onCheckedChange={field.handleChange}
+  aria-invalid={isInvalid}
+/>
+```
+
+#### 8. Array Fields (for multi-select checkboxes)
+
+Use `mode="array"` for checkbox arrays:
+
+```tsx
+<form.Field
+  name="notifications"
+  mode="array"
+  children={(field) => (
+    <FieldGroup data-slot="checkbox-group">
+      {options.map((option) => (
+        <Field key={option.id} orientation="horizontal">
+          <Checkbox
+            checked={field.state.value.includes(option.id)}
+            onCheckedChange={(checked) => {
+              if (checked) {
+                field.pushValue(option.id)
+              } else {
+                const index = field.state.value.indexOf(option.id)
+                if (index > -1) {
+                  field.removeValue(index)
+                }
+              }
+            }}
+          />
+          <FieldLabel>{option.label}</FieldLabel>
+        </Field>
+      ))}
+    </FieldGroup>
+  )}
+/>
+```
+
+#### 9. Dependencies
+
+These packages are already installed:
+
+- `@tanstack/react-form` (in dashboard app)
+- `zod` (in dashboard app and ui package)
+
+#### 10. Why TanStack Form?
+
+- **Headless**: Complete control over markup and styling
+- **Zod integration**: Native schema validation
+- **No re-renders**: Minimal unnecessary updates
+- **Accessible**: Built-in ARIA support
+- **Type-safe**: Full TypeScript support
 
 ---
 
@@ -373,6 +653,7 @@ if (isLoading) {
 | Handle loading/errors  | [loading-and-error-states.md](resources/loading-and-error-states.md) |
 | Optimize performance   | [performance.md](resources/performance.md)                           |
 | TypeScript types       | [typescript-standards.md](resources/typescript-standards.md)         |
+| Build forms            | Form Conventions (above)                                             |
 | Forms/Auth/DataGrid    | [common-patterns.md](resources/common-patterns.md)                   |
 | See full examples      | [complete-examples.md](resources/complete-examples.md)               |
 
@@ -388,6 +669,7 @@ if (isLoading) {
 6. **Import Aliases**: Use @/, ~types, ~components, ~features
 7. **No Early Returns**: Prevents layout shift
 8. **toast**: For all user notifications (sonner)
+9. **TanStack Form + Zod**: All forms must use TanStack Form with Zod validation
 
 ---
 
