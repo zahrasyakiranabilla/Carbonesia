@@ -51,10 +51,7 @@ function Footer({
   return (
     <footer
       data-slot="footer"
-      className={cn(
-        "w-full border-t border-border bg-background",
-        className
-      )}
+      className={cn("w-full border-t border-border bg-background", className)}
     >
       <div className="container mx-auto px-4 py-12 sm:px-6 lg:px-8">
         {/* Main Footer Content */}
@@ -62,7 +59,7 @@ function Footer({
           {/* Brand Section */}
           <div className="col-span-2 md:col-span-1">
             <h3 className="font-heading text-lg font-medium">{companyName}</h3>
-            <p className="mt-4 text-sm text-muted-foreground text-balance">
+            <p className="mt-4 text-sm text-balance text-muted-foreground">
               Your trusted healthcare partner.
             </p>
           </div>
@@ -70,7 +67,9 @@ function Footer({
           {/* Link Sections */}
           {sections.map((section) => (
             <div key={section.title}>
-              <h4 className="font-heading text-sm font-medium">{section.title}</h4>
+              <h4 className="font-heading text-sm font-medium">
+                {section.title}
+              </h4>
               <ul className="mt-4 space-y-3">
                 {section.links.map((link) => (
                   <li key={link.href}>

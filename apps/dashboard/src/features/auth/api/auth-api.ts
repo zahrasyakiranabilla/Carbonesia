@@ -6,12 +6,12 @@
  */
 
 import {
-  api,
-  authFetch,
-  handleApiResponse,
-} from "./api-client"
-import { setAccessToken, clearAccessToken, getAccessToken } from "../helpers/token-manager"
+  clearAccessToken,
+  getAccessToken,
+  setAccessToken,
+} from "../helpers/token-manager"
 import type { LoginCredentials, LoginResponse, User } from "../types"
+import { api, authFetch, handleApiResponse } from "./api-client"
 
 const API_BASE_URL = "/api"
 

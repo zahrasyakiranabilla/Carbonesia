@@ -33,17 +33,20 @@ function Navbar({
     >
       <div className="container mx-auto flex h-14 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand */}
-        <a href="/" className="flex items-center gap-2 font-heading text-lg font-medium">
+        <a
+          href="/"
+          className="flex items-center gap-2 font-heading text-lg font-medium"
+        >
           {brandName}
         </a>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden items-center gap-1 md:flex">
           {links.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="inline-flex items-center rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="inline-flex items-center rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
             >
               {link.label}
             </a>
@@ -83,15 +86,13 @@ function MobileMenu({ links }: { links: NavbarLink[] }) {
       </Menu.Trigger>
       <Menu.Portal>
         <Menu.Positioner sideOffset={8}>
-          <Menu.Popup
-            className="z-50 min-w-[12rem] overflow-hidden rounded-md border border-border bg-popover p-2 text-popover-foreground shadow-md"
-          >
+          <Menu.Popup className="z-50 min-w-[12rem] overflow-hidden rounded-md border border-border bg-popover p-2 text-popover-foreground shadow-md">
             <nav className="flex flex-col gap-1">
               {links.map((link) => (
                 <Menu.Item key={link.href}>
                   <a
                     href={link.href}
-                    className="flex items-center rounded-sm px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-full"
+                    className="flex w-full items-center rounded-sm px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                   >
                     {link.label}
                   </a>

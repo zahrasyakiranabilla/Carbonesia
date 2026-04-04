@@ -1,4 +1,3 @@
-import { cn } from "@repo/ui/lib/utils"
 import { Button } from "@repo/ui/components/button"
 import {
   Card,
@@ -14,6 +13,7 @@ import {
   FieldLabel,
 } from "@repo/ui/components/field"
 import { Input } from "@repo/ui/components/input"
+import { cn } from "@repo/ui/lib/utils"
 
 export function LoginForm({
   className,

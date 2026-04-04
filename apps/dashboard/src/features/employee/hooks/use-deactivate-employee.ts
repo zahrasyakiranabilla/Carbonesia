@@ -3,6 +3,7 @@
  */
 
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+
 import { deactivateEmployee } from "../api/employee-api"
 
 export function useDeactivateEmployee() {

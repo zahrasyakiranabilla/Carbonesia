@@ -9,6 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@repo/ui/components/dialog"
+
 import type { Employee } from "../types"
 
 interface DeactivateDialogProps {
@@ -33,12 +34,18 @@ export function DeactivateDialog({
           <DialogTitle>Nonaktifkan Karyawan</DialogTitle>
           <DialogDescription>
             Apakah Anda yakin ingin menonaktifkan akun{" "}
-            <span className="font-medium text-foreground">{employee?.name}</span>?
-            Karyawan tidak akan dapat mengakses sistem setelah dinonaktifkan.
+            <span className="font-medium text-foreground">
+              {employee?.name}
+            </span>
+            ? Karyawan tidak akan dapat mengakses sistem setelah dinonaktifkan.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isLoading}>
+          <Button
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+            disabled={isLoading}
+          >
             Batal
           </Button>
           <Button variant="secondary" onClick={onConfirm} disabled={isLoading}>

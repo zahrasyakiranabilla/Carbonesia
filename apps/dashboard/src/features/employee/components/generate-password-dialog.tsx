@@ -1,7 +1,8 @@
 "use client"
 
 import * as React from "react"
-
+import { CheckmarkCircleIcon, CopyIcon } from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
 import { Button } from "@repo/ui/components/button"
 import {
   Dialog,
@@ -12,8 +13,6 @@ import {
   DialogTitle,
 } from "@repo/ui/components/dialog"
 import { Input } from "@repo/ui/components/input"
-import { HugeiconsIcon } from "@hugeicons/react"
-import { CopyIcon, CheckmarkCircleIcon } from "@hugeicons/core-free-icons"
 
 interface GeneratePasswordDialogProps {
   open: boolean
@@ -63,7 +62,7 @@ export function GeneratePasswordDialog({
               type="button"
               variant="ghost"
               size="icon-sm"
-              className="absolute right-0 top-0"
+              className="absolute top-0 right-0"
               onClick={handleCopy}
             >
               <HugeiconsIcon

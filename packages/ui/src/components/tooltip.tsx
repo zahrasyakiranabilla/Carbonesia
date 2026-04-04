@@ -1,6 +1,6 @@
+import type * as React from "react"
 import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip"
 import { cn } from "@repo/ui/lib/utils"
-import type * as React from "react"
 
 interface TooltipProviderProps {
   children: React.ReactNode
@@ -62,7 +62,7 @@ function Tooltip({
         >
           <TooltipPrimitive.Popup
             className={cn(
-              "z-50 overflow-hidden rounded-md border border-border bg-popover px-3 py-1.5 text-xs text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95",
+              "z-50 animate-in overflow-hidden rounded-md border border-border bg-popover px-3 py-1.5 text-xs text-popover-foreground shadow-md fade-in-0 zoom-in-95",
               contentClassName
             )}
           >

@@ -1,10 +1,8 @@
 import * as React from "react"
 import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
-import { cva, type VariantProps } from "class-variance-authority"
-
-import { useIsMobile } from "@repo/ui/hooks/use-mobile"
-import { cn } from "@repo/ui/lib/utils"
+import { SidebarLeftIcon } from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
 import { Button } from "@repo/ui/components/button"
 import { Input } from "@repo/ui/components/input"
 import { Separator } from "@repo/ui/components/separator"
@@ -16,11 +14,10 @@ import {
   SheetTitle,
 } from "@repo/ui/components/sheet"
 import { Skeleton } from "@repo/ui/components/skeleton"
-import {
-  Tooltip,
-} from "@repo/ui/components/tooltip"
-import { HugeiconsIcon } from "@hugeicons/react"
-import { SidebarLeftIcon } from "@hugeicons/core-free-icons"
+import { Tooltip } from "@repo/ui/components/tooltip"
+import { useIsMobile } from "@repo/ui/hooks/use-mobile"
+import { cn } from "@repo/ui/lib/utils"
+import { cva, type VariantProps } from "class-variance-authority"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -535,10 +532,12 @@ function SidebarMenuButton({
   }
 
   // Define tooltip content and props
-  let tooltipContent: React.ReactNode = typeof tooltip === "string" ? tooltip : (tooltip.children || tooltip.content);
-  let tooltipProps: Record<string, any> = typeof tooltip === "string" ? {} : { ...tooltip };
-  delete tooltipProps.children;
-  delete tooltipProps.content;
+  let tooltipContent: React.ReactNode =
+    typeof tooltip === "string" ? tooltip : tooltip.children || tooltip.content
+  let tooltipProps: Record<string, any> =
+    typeof tooltip === "string" ? {} : { ...tooltip }
+  delete tooltipProps.children
+  delete tooltipProps.content
 
   // Do not wrap with Tooltip if not collapsed (except on mobile where tooltips aren't used anyway)
   if (state !== "collapsed" || isMobile) {

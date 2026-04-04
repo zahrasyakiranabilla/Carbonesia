@@ -9,6 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@repo/ui/components/dialog"
+
 import type { Employee } from "../types"
 
 interface ActivateDialogProps {
@@ -33,12 +34,18 @@ export function ActivateDialog({
           <DialogTitle>Aktifkan Karyawan</DialogTitle>
           <DialogDescription>
             Apakah Anda yakin ingin mengaktifkan akun{" "}
-            <span className="font-medium text-foreground">{employee?.name}</span>?
-            Karyawan akan dapat mengakses sistem setelah diaktifkan.
+            <span className="font-medium text-foreground">
+              {employee?.name}
+            </span>
+            ? Karyawan akan dapat mengakses sistem setelah diaktifkan.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isLoading}>
+          <Button
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+            disabled={isLoading}
+          >
             Batal
           </Button>
           <Button onClick={onConfirm} disabled={isLoading}>

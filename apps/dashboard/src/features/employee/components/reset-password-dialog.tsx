@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-
 import { Button } from "@repo/ui/components/button"
 import {
   Dialog,
@@ -11,8 +10,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@repo/ui/components/dialog"
-import { GeneratePasswordDialog } from "./generate-password-dialog"
+
 import type { Employee } from "../types"
+import { GeneratePasswordDialog } from "./generate-password-dialog"
 
 interface ResetPasswordDialogProps {
   open: boolean
@@ -55,12 +55,18 @@ export function ResetPasswordDialog({
             <DialogTitle>Reset Password</DialogTitle>
             <DialogDescription>
               Apakah Anda yakin ingin mereset password untuk{" "}
-              <span className="font-medium text-foreground">{employee?.name}</span>?
-              Password baru akan dihasilkan secara otomatis.
+              <span className="font-medium text-foreground">
+                {employee?.name}
+              </span>
+              ? Password baru akan dihasilkan secara otomatis.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isLoading}>
+            <Button
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+              disabled={isLoading}
+            >
               Batal
             </Button>
             <Button onClick={handleConfirm} disabled={isLoading}>

@@ -1,4 +1,9 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui/components/card"
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@repo/ui/components/card"
 
 const team = [
   {
@@ -28,7 +33,9 @@ export function TimSection() {
     <section className="bg-muted py-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          <h2 className="font-heading text-3xl font-bold sm:text-4xl">Tim Kami</h2>
+          <h2 className="font-heading text-3xl font-bold sm:text-4xl">
+            Tim Kami
+          </h2>
           <p className="mt-4 text-muted-foreground">
             Profesional kesehatan yang siap melayani Anda
           </p>
@@ -56,10 +63,12 @@ export function TimSection() {
                   </svg>
                 </div>
                 <CardTitle className="text-base">{member.name}</CardTitle>
-                <p className="text-sm font-medium text-primary">{member.role}</p>
+                <p className="text-sm font-medium text-primary">
+                  {member.role}
+                </p>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground text-pretty">
+                <p className="text-sm text-pretty text-muted-foreground">
                   {member.bio}
                 </p>
               </CardContent>

@@ -41,10 +41,7 @@ export function getTokenExpiration(token: string): number | null {
  * @param token - JWT token string
  * @param bufferSeconds - How many seconds before expiration to consider "expiring" (default: 60)
  */
-export function isTokenExpiring(
-  token: string,
-  bufferSeconds = 60
-): boolean {
+export function isTokenExpiring(token: string, bufferSeconds = 60): boolean {
   const exp = getTokenExpiration(token)
   if (!exp) {
     return true // Invalid token, treat as expired
