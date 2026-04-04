@@ -8,43 +8,40 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import type { createStart } from "@tanstack/react-start"
-
-import type { getRouter } from "./router.tsx"
-import { Route as rootRouteImport } from "./routes/__root"
-import { Route as IndexRouteImport } from "./routes/index"
-import { Route as ProfilPerusahaanIndexRouteImport } from "./routes/profil-perusahaan/index"
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProfilPerusahaanIndexRouteImport } from './routes/profil-perusahaan/index'
 
 const IndexRoute = IndexRouteImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfilPerusahaanIndexRoute = ProfilPerusahaanIndexRouteImport.update({
-  id: "/profil-perusahaan/",
-  path: "/profil-perusahaan/",
+  id: '/profil-perusahaan/',
+  path: '/profil-perusahaan/',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
-  "/": typeof IndexRoute
-  "/profil-perusahaan/": typeof ProfilPerusahaanIndexRoute
+  '/': typeof IndexRoute
+  '/profil-perusahaan/': typeof ProfilPerusahaanIndexRoute
 }
 export interface FileRoutesByTo {
-  "/": typeof IndexRoute
-  "/profil-perusahaan": typeof ProfilPerusahaanIndexRoute
+  '/': typeof IndexRoute
+  '/profil-perusahaan': typeof ProfilPerusahaanIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  "/": typeof IndexRoute
-  "/profil-perusahaan/": typeof ProfilPerusahaanIndexRoute
+  '/': typeof IndexRoute
+  '/profil-perusahaan/': typeof ProfilPerusahaanIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: "/" | "/profil-perusahaan/"
+  fullPaths: '/' | '/profil-perusahaan/'
   fileRoutesByTo: FileRoutesByTo
-  to: "/" | "/profil-perusahaan"
-  id: "__root__" | "/" | "/profil-perusahaan/"
+  to: '/' | '/profil-perusahaan'
+  id: '__root__' | '/' | '/profil-perusahaan/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -52,19 +49,19 @@ export interface RootRouteChildren {
   ProfilPerusahaanIndexRoute: typeof ProfilPerusahaanIndexRoute
 }
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/": {
-      id: "/"
-      path: "/"
-      fullPath: "/"
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    "/profil-perusahaan/": {
-      id: "/profil-perusahaan/"
-      path: "/profil-perusahaan"
-      fullPath: "/profil-perusahaan/"
+    '/profil-perusahaan/': {
+      id: '/profil-perusahaan/'
+      path: '/profil-perusahaan'
+      fullPath: '/profil-perusahaan/'
       preLoaderRoute: typeof ProfilPerusahaanIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -79,7 +76,9 @@ export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
 
-declare module "@tanstack/react-start" {
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
   interface Register {
     ssr: true
     router: Awaited<ReturnType<typeof getRouter>>

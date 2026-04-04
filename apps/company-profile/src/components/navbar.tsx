@@ -1,8 +1,7 @@
-"use client"
-
 import { useEffect, useRef, useState } from "react"
-
-import { cn } from "@/lib/utils"
+import { Cancel01Icon, Menu02Icon } from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { cn } from "@repo/ui/lib/utils"
 
 interface NavbarLink {
   label: string
@@ -168,33 +167,9 @@ function MobileMenu({ activePath }: { activePath: string }) {
         aria-expanded={openMenu}
       >
         {openMenu ? (
-          <svg
-            className="h-6 w-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
+          <HugeiconsIcon icon={Cancel01Icon} size={24} color="currentColor" />
         ) : (
-          <svg
-            className="h-6 w-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
+          <HugeiconsIcon icon={Menu02Icon} size={24} color="currentColor" />
         )}
       </button>
 
@@ -316,9 +291,7 @@ export function Navbar({ className }: NavbarProps) {
       style={{ fontFamily: "Inter, sans-serif" }}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-2 xl:px-8">
-        {/* White pill — diperpanjang dengan w-full */}
         <div className="flex items-center justify-between gap-2 rounded-[100px] bg-white px-4 py-2 shadow-lg lg:px-5 xl:gap-4 xl:px-12 xl:py-2.5">
-          {/* Logo */}
           <a href="/" className="flex flex-shrink-0 items-center gap-2">
             <img
               src="/logo apotek.png"
@@ -329,7 +302,6 @@ export function Navbar({ className }: NavbarProps) {
 
           <DesktopMenu activePath={activePath} />
 
-          {/* CTA + Hamburger */}
           <div className="flex flex-shrink-0 items-center gap-2">
             <a
               href={SHOPPING_URL}
@@ -349,49 +321,3 @@ export function Navbar({ className }: NavbarProps) {
     </header>
   )
 }
-
-function MobileMenu({ links }: { links: NavbarLink[] }) {
-  return (
-    <Menu.Root>
-      <Menu.Trigger>
-        <Button variant="ghost" size="icon" aria-label="Open menu">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <line x1="4" x2="20" y1="12" y2="12" />
-            <line x1="4" x2="20" y1="6" y2="6" />
-            <line x1="4" x2="20" y1="18" y2="18" />
-          </svg>
-        </Button>
-      </Menu.Trigger>
-      <Menu.Portal>
-        <Menu.Positioner sideOffset={8}>
-          <Menu.Popup className="z-50 min-w-[12rem] overflow-hidden rounded-md border border-border bg-popover p-2 text-popover-foreground shadow-md">
-            <nav className="flex flex-col gap-1">
-              {links.map((link) => (
-                <Menu.Item key={link.href}>
-                  <a
-                    href={link.href}
-                    className="flex w-full items-center rounded-sm px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-                  >
-                    {link.label}
-                  </a>
-                </Menu.Item>
-              ))}
-            </nav>
-          </Menu.Popup>
-        </Menu.Positioner>
-      </Menu.Portal>
-    </Menu.Root>
-  )
-}
-
-export { Navbar }
