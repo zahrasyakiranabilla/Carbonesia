@@ -63,7 +63,7 @@ type ListUsersResult struct {
 
 // ListUsersResultResponse wraps ListUsersResult with data/meta structure
 type ListUsersResultResponse struct {
-	Data interface{}           `json:"data"`
+	Data interface{}              `json:"data"`
 	Meta *entities.PaginationMeta `json:"meta"`
 }
 
@@ -125,11 +125,11 @@ func (s *Service) CreateUser(ctx context.Context, req CreateUserRequest) (*User,
 
 	// Create user
 	u := &User{
-		Email:            req.Email,
-		PasswordHash:     passwordHash,
-		Name:             req.Name,
-		Role:             req.Role,
-		Active:           active,
+		Email:              req.Email,
+		PasswordHash:       passwordHash,
+		Name:               req.Name,
+		Role:               req.Role,
+		Active:             active,
 		MustChangePassword: true,
 	}
 
@@ -142,10 +142,8 @@ func (s *Service) CreateUser(ctx context.Context, req CreateUserRequest) (*User,
 
 // UpdateUserRequest represents request to update a user
 type UpdateUserRequest struct {
-	Email  string `json:"email"`
-	Name   string `json:"name"`
-	Role   Role   `json:"role"`
-	Active *bool  `json:"active,omitempty"`
+	Email string `json:"email"`
+	Name  string `json:"name"`
 }
 
 // UpdateUser updates an existing user
@@ -170,13 +168,9 @@ func (s *Service) UpdateUser(ctx context.Context, userID string, req UpdateUserR
 		}
 	}
 
-	// Update fields
+	// Update fields (role cannot be changed)
 	existing.Email = req.Email
 	existing.Name = req.Name
-	existing.Role = req.Role
-	if req.Active != nil {
-		existing.Active = *req.Active
-	}
 
 	if err := s.repo.Update(ctx, existing); err != nil {
 		return nil, fmt.Errorf("failed to update user: %w", err)
@@ -243,6 +237,18 @@ func (s *Service) DeactivateUser(ctx context.Context, userID, currentUserID stri
 
 	existing.Active = false
 	return existing, nil
+}
+
+// GetUser retrieves a single user by ID
+func (s *Service) GetUser(ctx context.Context, userID string) (*User, error) {
+	user, err := s.repo.GetByID(ctx, userID)
+	if err != nil {
+		if errors.Is(err, ErrUserNotFound) {
+			return nil, ErrUserNotFound
+		}
+		return nil, fmt.Errorf("failed to get user: %w", err)
+	}
+	return user, nil
 }
 
 // ResetPassword generates a new random password for a user

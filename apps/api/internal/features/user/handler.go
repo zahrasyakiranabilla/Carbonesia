@@ -23,6 +23,28 @@ func NewHandler(service *Service, repo *Repository) *Handler {
 	}
 }
 
+// GetUser handles GET /api/v1/admin/users/{id}
+func (h *Handler) GetUser(w http.ResponseWriter, r *http.Request) {
+	userID := r.PathValue("id")
+	if userID == "" {
+		entities.WriteError(w, http.StatusBadRequest, "User ID is required")
+		return
+	}
+
+	user, err := h.service.GetUser(r.Context(), userID)
+	if err != nil {
+		switch {
+		case errors.Is(err, ErrUserNotFound):
+			entities.WriteError(w, http.StatusNotFound, "User not found")
+		default:
+			entities.WriteError(w, http.StatusInternalServerError, err.Error())
+		}
+		return
+	}
+
+	entities.WriteJSON(w, http.StatusOK, user)
+}
+
 // ListUsers handles GET /api/v1/admin/users
 func (h *Handler) ListUsers(w http.ResponseWriter, r *http.Request) {
 	// Parse query params
@@ -79,9 +101,9 @@ func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Validate role
+	// Set default role to employee if not specified
 	if req.Role == "" {
-		req.Role = RoleStaff
+		req.Role = RoleEmployee
 	}
 
 	user, err := h.service.CreateUser(r.Context(), req)

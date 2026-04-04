@@ -14,17 +14,17 @@ import (
 
 // Dependencies holds all service dependencies
 type Dependencies struct {
-	Config        *config.Config
-	DB            *database.Database
+	Config *config.Config
+	DB     *database.Database
 
 	// Repositories
-	UserRepo      *user.Repository
-	BranchRepo    *branch.Repository
-	TokenRepo     *auth.Repository
+	UserRepo   *user.Repository
+	BranchRepo *branch.Repository
+	TokenRepo  *auth.Repository
 
 	// Services
-	AuthService   *auth.Service
-	UserService   *user.Service
+	AuthService *auth.Service
+	UserService *user.Service
 
 	// Handlers
 	AuthHandler   *auth.Handler
@@ -85,6 +85,7 @@ func RegisterRoutes(deps *Dependencies) http.Handler {
 	// Protected admin routes
 	adminMux := http.NewServeMux()
 	adminMux.HandleFunc("GET /api/v1/admin/users", deps.UserHandler.ListUsers)
+	adminMux.HandleFunc("GET /api/v1/admin/users/{id}", deps.UserHandler.GetUser)
 	adminMux.HandleFunc("POST /api/v1/admin/users", deps.UserHandler.CreateUser)
 	adminMux.HandleFunc("PUT /api/v1/admin/users/{id}", deps.UserHandler.UpdateUser)
 	adminMux.HandleFunc("PATCH /api/v1/admin/users/{id}/activate", deps.UserHandler.ActivateUser)
