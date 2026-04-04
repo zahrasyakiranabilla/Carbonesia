@@ -23,26 +23,16 @@ import type { Employee } from "../types"
 
 interface EmployeeListProps {
   employees: Employee[]
-  isLoading?: boolean
   onActivate: (employee: Employee) => void
   onDeactivate: (employee: Employee) => void
 }
 
 export function EmployeeList({
   employees,
-  isLoading,
   onActivate,
   onDeactivate,
 }: EmployeeListProps) {
   const navigate = useNavigate()
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-8">
-        <p className="text-muted-foreground">Memuat...</p>
-      </div>
-    )
-  }
 
   if (employees.length === 0) {
     return (

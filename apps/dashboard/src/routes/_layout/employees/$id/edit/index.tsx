@@ -1,9 +1,12 @@
 "use client"
 
-import { EmployeeForm, useUpdateEmployee } from "@/features/employee"
-import { getEmployee } from "@/features/employee/api/employee-api"
+import {
+  EmployeeForm,
+  useSuspenseEmployee,
+  useUpdateEmployee,
+} from "@/features/employee"
 import type { UpdateEmployeeRequest } from "@/features/employee/types"
-import { ArrowLeftIcon, LoadingIcon } from "@hugeicons/core-free-icons"
+import { ArrowLeftIcon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Button } from "@repo/ui/components/button"
 import {
@@ -13,23 +16,51 @@ import {
   CardHeader,
   CardTitle,
 } from "@repo/ui/components/card"
-import { useQuery } from "@tanstack/react-query"
 import { createFileRoute, useNavigate, useParams } from "@tanstack/react-router"
 import { toast } from "sonner"
+
+import { SuspenseLoader } from "@/components/suspense-loader/suspense-loader"
 
 export const Route = createFileRoute("/_layout/employees/$id/edit/")({
   component: EditEmployeePage,
 })
 
+interface EmployeeFormContentProps {
+  employeeId: string
+  onSubmit: (data: UpdateEmployeeRequest) => Promise<void>
+  isSubmitting: boolean
+}
+
+function EmployeeFormContent({
+  employeeId,
+  onSubmit,
+  isSubmitting,
+}: EmployeeFormContentProps) {
+  const { employee } = useSuspenseEmployee(employeeId)
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Informasi Karyawan</CardTitle>
+        <CardDescription>
+          Perbarui formulir di bawah untuk mengubah data karyawan
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <EmployeeForm
+          employee={employee}
+          onSubmit={onSubmit}
+          isSubmitting={isSubmitting}
+        />
+      </CardContent>
+    </Card>
+  )
+}
+
 function EditEmployeePage() {
   const navigate = useNavigate()
   const params = useParams({ from: "/_layout/employees/$id/edit/" })
   const employeeId = params.id
-
-  const { data: employee, isLoading } = useQuery({
-    queryKey: ["employee", employeeId],
-    queryFn: () => getEmployee(employeeId),
-  })
 
   const updateMutation = useUpdateEmployee()
 
@@ -43,30 +74,6 @@ function EditEmployeePage() {
         error instanceof Error ? error.message : "Gagal memperbarui karyawan"
       )
     }
-  }
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-8">
-        <HugeiconsIcon
-          icon={LoadingIcon}
-          className="animate-spin"
-          strokeWidth={2}
-        />
-        <span className="ml-2">Memuat...</span>
-      </div>
-    )
-  }
-
-  if (!employee) {
-    return (
-      <div className="flex flex-col items-center justify-center py-8">
-        <p className="text-muted-foreground">Karyawan tidak ditemukan</p>
-        <Button variant="link" onClick={() => navigate({ to: "/employees" })}>
-          Kembali ke daftar karyawan
-        </Button>
-      </div>
-    )
   }
 
   return (
@@ -86,22 +93,14 @@ function EditEmployeePage() {
         </div>
       </div>
 
-      {/* Form */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Informasi Karyawan</CardTitle>
-          <CardDescription>
-            Perbarui formulir di bawah untuk mengubah data karyawan
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <EmployeeForm
-            employee={employee}
-            onSubmit={handleSubmit}
-            isSubmitting={updateMutation.isPending}
-          />
-        </CardContent>
-      </Card>
+      {/* Form with Suspense */}
+      <SuspenseLoader>
+        <EmployeeFormContent
+          employeeId={employeeId}
+          onSubmit={handleSubmit}
+          isSubmitting={updateMutation.isPending}
+        />
+      </SuspenseLoader>
     </div>
   )
 }

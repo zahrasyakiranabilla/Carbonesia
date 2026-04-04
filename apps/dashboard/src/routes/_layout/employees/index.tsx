@@ -8,7 +8,7 @@ import {
   EmployeeList,
   useActivateEmployee,
   useDeactivateEmployee,
-  useEmployees,
+  useSuspenseEmployees,
 } from "@/features/employee"
 import type { Employee } from "@/features/employee/types"
 import { Add01Icon } from "@hugeicons/core-free-icons"
@@ -24,9 +24,42 @@ import {
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { toast } from "sonner"
 
+import { SuspenseLoader } from "@/components/suspense-loader/suspense-loader"
+
 export const Route = createFileRoute("/_layout/employees/")({
   component: EmployeeManagement,
 })
+
+interface EmployeeListContentProps {
+  filters: { search: string; page: number; limit: number }
+  onActivate: (employee: Employee) => void
+  onDeactivate: (employee: Employee) => void
+}
+
+function EmployeeListContent({
+  filters,
+  onActivate,
+  onDeactivate,
+}: EmployeeListContentProps) {
+  const { employees, meta } = useSuspenseEmployees(filters)
+
+  return (
+    <>
+      <div className="mb-4">
+        <CardDescription>
+          {meta
+            ? `${meta.total} karyawan ditemukan`
+            : "Menampilkan semua karyawan"}
+        </CardDescription>
+      </div>
+      <EmployeeList
+        employees={employees}
+        onActivate={onActivate}
+        onDeactivate={onDeactivate}
+      />
+    </>
+  )
+}
 
 function EmployeeManagement() {
   const navigate = useNavigate()
@@ -42,8 +75,7 @@ function EmployeeManagement() {
   const [selectedEmployee, setSelectedEmployee] =
     React.useState<Employee | null>(null)
 
-  // Queries and mutations
-  const { employees, meta, isLoading, refetch } = useEmployees(filters)
+  // Mutations
   const activateMutation = useActivateEmployee()
   const deactivateMutation = useDeactivateEmployee()
 
@@ -69,7 +101,6 @@ function EmployeeManagement() {
       await activateMutation.mutateAsync(selectedEmployee.id)
       toast.success(`Karyawan ${selectedEmployee.name} berhasil diaktifkan`)
       setActivateDialogOpen(false)
-      refetch()
     } catch (error) {
       toast.error(
         error instanceof Error ? error.message : "Gagal mengaktifkan karyawan"
@@ -84,7 +115,6 @@ function EmployeeManagement() {
       await deactivateMutation.mutateAsync(selectedEmployee.id)
       toast.success(`Karyawan ${selectedEmployee.name} berhasil dinonaktifkan`)
       setDeactivateDialogOpen(false)
-      refetch()
     } catch (error) {
       toast.error(
         error instanceof Error ? error.message : "Gagal menonaktifkan karyawan"
@@ -114,26 +144,20 @@ function EmployeeManagement() {
       {/* Employee List */}
       <Card>
         <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <CardTitle>Daftar Karyawan</CardTitle>
-            <CardDescription>
-              {meta
-                ? `${meta.total} karyawan ditemukan`
-                : "Menampilkan semua karyawan"}
-            </CardDescription>
-          </div>
+          <CardTitle>Daftar Karyawan</CardTitle>
           <EmployeeFilters
             search={filters.search}
             onSearchChange={handleSearchChange}
           />
         </CardHeader>
         <CardContent>
-          <EmployeeList
-            employees={employees}
-            isLoading={isLoading}
-            onActivate={handleActivate}
-            onDeactivate={handleDeactivate}
-          />
+          <SuspenseLoader>
+            <EmployeeListContent
+              filters={filters}
+              onActivate={handleActivate}
+              onDeactivate={handleDeactivate}
+            />
+          </SuspenseLoader>
         </CardContent>
       </Card>
 
