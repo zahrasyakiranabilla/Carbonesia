@@ -1,54 +1,158 @@
+"use client"
+
+import * as React from "react"
+import {
+  ActivateDialog,
+  DeactivateDialog,
+  EmployeeFilters,
+  EmployeeList,
+  useActivateEmployee,
+  useDeactivateEmployee,
+  useEmployees,
+} from "@/features/employee"
+import type { Employee } from "@/features/employee/types"
+import { Add01Icon } from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { Button } from "@repo/ui/components/button"
 import {
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from "@repo/ui/components/card"
-import { Button } from "@repo/ui/components/button"
-import { createFileRoute } from "@tanstack/react-router"
-import { HugeiconsIcon } from "@hugeicons/react"
-import { UserGroupIcon, Add01Icon } from "@hugeicons/core-free-icons"
+import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import { toast } from "sonner"
 
 export const Route = createFileRoute("/_layout/employees/")({
   component: EmployeeManagement,
 })
 
 function EmployeeManagement() {
+  const navigate = useNavigate()
+  const [filters, setFilters] = React.useState({
+    search: "",
+    page: 1,
+    limit: 20,
+  })
+
+  // Dialog states
+  const [activateDialogOpen, setActivateDialogOpen] = React.useState(false)
+  const [deactivateDialogOpen, setDeactivateDialogOpen] = React.useState(false)
+  const [selectedEmployee, setSelectedEmployee] =
+    React.useState<Employee | null>(null)
+
+  // Queries and mutations
+  const { employees, meta, isLoading, refetch } = useEmployees(filters)
+  const activateMutation = useActivateEmployee()
+  const deactivateMutation = useDeactivateEmployee()
+
+  // Handlers
+  const handleSearchChange = (search: string) => {
+    setFilters((prev) => ({ ...prev, search, page: 1 }))
+  }
+
+  const handleActivate = (employee: Employee) => {
+    setSelectedEmployee(employee)
+    setActivateDialogOpen(true)
+  }
+
+  const handleDeactivate = (employee: Employee) => {
+    setSelectedEmployee(employee)
+    setDeactivateDialogOpen(true)
+  }
+
+  const confirmActivate = async () => {
+    if (!selectedEmployee) return
+
+    try {
+      await activateMutation.mutateAsync(selectedEmployee.id)
+      toast.success(`Karyawan ${selectedEmployee.name} berhasil diaktifkan`)
+      setActivateDialogOpen(false)
+      refetch()
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Gagal mengaktifkan karyawan"
+      )
+    }
+  }
+
+  const confirmDeactivate = async () => {
+    if (!selectedEmployee) return
+
+    try {
+      await deactivateMutation.mutateAsync(selectedEmployee.id)
+      toast.success(`Karyawan ${selectedEmployee.name} berhasil dinonaktifkan`)
+      setDeactivateDialogOpen(false)
+      refetch()
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Gagal menonaktifkan karyawan"
+      )
+    }
+  }
+
   return (
     <div className="space-y-6">
+      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold">Employee Management</h1>
+          <h1 className="text-2xl font-semibold">Manajemen Karyawan</h1>
           <p className="text-muted-foreground">
-            Manage employee records and information
+            Kelola data karyawan dan akses sistem
           </p>
         </div>
-        <Button className="gap-2">
+        <Button
+          className="gap-2"
+          onClick={() => navigate({ to: "/employees/create" })}
+        >
           <HugeiconsIcon icon={Add01Icon} strokeWidth={2} />
-          Add Employee
+          Tambah Karyawan
         </Button>
       </div>
 
+      {/* Employee List */}
       <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <HugeiconsIcon icon={UserGroupIcon} strokeWidth={2} />
-            Employee List
-          </CardTitle>
-          <CardDescription>
-            View and manage all employees in the system
-          </CardDescription>
+        <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <CardTitle>Daftar Karyawan</CardTitle>
+            <CardDescription>
+              {meta
+                ? `${meta.total} karyawan ditemukan`
+                : "Menampilkan semua karyawan"}
+            </CardDescription>
+          </div>
+          <EmployeeFilters
+            search={filters.search}
+            onSearchChange={handleSearchChange}
+          />
         </CardHeader>
         <CardContent>
-          <div className="text-center py-8 text-muted-foreground">
-            Employee list will be displayed here.
-            <p className="text-sm mt-2">
-              This feature is currently being developed.
-            </p>
-          </div>
+          <EmployeeList
+            employees={employees}
+            isLoading={isLoading}
+            onActivate={handleActivate}
+            onDeactivate={handleDeactivate}
+          />
         </CardContent>
       </Card>
+
+      {/* Dialogs */}
+      <ActivateDialog
+        open={activateDialogOpen}
+        onOpenChange={setActivateDialogOpen}
+        employee={selectedEmployee}
+        onConfirm={confirmActivate}
+        isLoading={activateMutation.isPending}
+      />
+
+      <DeactivateDialog
+        open={deactivateDialogOpen}
+        onOpenChange={setDeactivateDialogOpen}
+        employee={selectedEmployee}
+        onConfirm={confirmDeactivate}
+        isLoading={deactivateMutation.isPending}
+      />
     </div>
   )
 }

@@ -1,9 +1,10 @@
-import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
 import * as React from "react"
-
-import appCss from "@repo/ui/globals.css?url"
-import { TooltipProvider } from "@repo/ui/components/tooltip"
 import { Toaster } from "@repo/ui/components/sonner"
+import { TooltipProvider } from "@repo/ui/components/tooltip"
+import appCss from "@repo/ui/globals.css?url"
+import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router"
+
+import { QueryProvider } from "../components/providers/query-provider"
 import { AuthProvider } from "../features/auth"
 
 export const Route = createRootRoute({
@@ -33,7 +34,7 @@ export const Route = createRootRoute({
 
 function NotFound() {
   return (
-    <div className="min-h-svh flex items-center justify-center">
+    <div className="flex min-h-svh items-center justify-center">
       <div className="text-center">
         <h1 className="text-2xl font-semibold">404</h1>
         <p className="text-muted-foreground">Page not found</p>
@@ -49,10 +50,12 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <AuthProvider>
-          <TooltipProvider>{children}</TooltipProvider>
-          <Toaster />
-        </AuthProvider>
+        <QueryProvider>
+          <AuthProvider>
+            <TooltipProvider>{children}</TooltipProvider>
+            <Toaster />
+          </AuthProvider>
+        </QueryProvider>
         <Scripts />
       </body>
     </html>

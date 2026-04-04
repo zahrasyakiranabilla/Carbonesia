@@ -6,15 +6,14 @@ info:
 http:
   method: GET
   url: "{{baseUrl}}/api/v1/admin/users"
-  query:
-    page: "1"
-    limit: "20"
-    role: ""
-    search: ""
-    active: ""
-  headers:
-    Authorization: "Bearer {{accessToken}}"
-    Content-Type: application/json
+
+runtime:
+  variables:
+    - name: baseUrl
+      value: http://localhost:8080
 
 settings:
   encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -6,9 +6,22 @@ export type {
   LoginResponse,
 } from "./types"
 
+export type { AuthContextValue } from "./hooks/use-auth"
+
 export { AuthProvider, useAuth } from "./hooks"
-export { login, logout, getCurrentUser, getAccessToken, ApiError } from "./api/auth-api"
-export { api, authFetch, proactiveRefresh } from "./api/api-client"
+export {
+  login,
+  logout,
+  getCurrentUser,
+  getAccessToken,
+  ApiError,
+} from "./api/auth-api"
+export {
+  api,
+  authFetch,
+  proactiveRefresh,
+  setAuthErrorCallback,
+} from "./api/api-client"
 export { LoginPage } from "./components/login-page"
 export {
   setAccessToken,

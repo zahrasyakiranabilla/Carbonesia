@@ -13,6 +13,8 @@ import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as LayoutIndexRouteImport } from './routes/_layout/index'
 import { Route as LayoutEmployeesIndexRouteImport } from './routes/_layout/employees/index'
+import { Route as LayoutEmployeesCreateIndexRouteImport } from './routes/_layout/employees/create/index'
+import { Route as LayoutEmployeesIdEditIndexRouteImport } from './routes/_layout/employees/$id/edit/index'
 
 const LayoutRoute = LayoutRouteImport.update({
   id: '/_layout',
@@ -33,16 +35,32 @@ const LayoutEmployeesIndexRoute = LayoutEmployeesIndexRouteImport.update({
   path: '/employees/',
   getParentRoute: () => LayoutRoute,
 } as any)
+const LayoutEmployeesCreateIndexRoute =
+  LayoutEmployeesCreateIndexRouteImport.update({
+    id: '/employees/create/',
+    path: '/employees/create/',
+    getParentRoute: () => LayoutRoute,
+  } as any)
+const LayoutEmployeesIdEditIndexRoute =
+  LayoutEmployeesIdEditIndexRouteImport.update({
+    id: '/employees/$id/edit/',
+    path: '/employees/$id/edit/',
+    getParentRoute: () => LayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof LayoutIndexRoute
   '/login/': typeof LoginIndexRoute
   '/employees/': typeof LayoutEmployeesIndexRoute
+  '/employees/create/': typeof LayoutEmployeesCreateIndexRoute
+  '/employees/$id/edit/': typeof LayoutEmployeesIdEditIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof LayoutIndexRoute
   '/login': typeof LoginIndexRoute
   '/employees': typeof LayoutEmployeesIndexRoute
+  '/employees/create': typeof LayoutEmployeesCreateIndexRoute
+  '/employees/$id/edit': typeof LayoutEmployeesIdEditIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -50,13 +68,32 @@ export interface FileRoutesById {
   '/_layout/': typeof LayoutIndexRoute
   '/login/': typeof LoginIndexRoute
   '/_layout/employees/': typeof LayoutEmployeesIndexRoute
+  '/_layout/employees/create/': typeof LayoutEmployeesCreateIndexRoute
+  '/_layout/employees/$id/edit/': typeof LayoutEmployeesIdEditIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login/' | '/employees/'
+  fullPaths:
+    | '/'
+    | '/login/'
+    | '/employees/'
+    | '/employees/create/'
+    | '/employees/$id/edit/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/employees'
-  id: '__root__' | '/_layout' | '/_layout/' | '/login/' | '/_layout/employees/'
+  to:
+    | '/'
+    | '/login'
+    | '/employees'
+    | '/employees/create'
+    | '/employees/$id/edit'
+  id:
+    | '__root__'
+    | '/_layout'
+    | '/_layout/'
+    | '/login/'
+    | '/_layout/employees/'
+    | '/_layout/employees/create/'
+    | '/_layout/employees/$id/edit/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -94,17 +131,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutEmployeesIndexRouteImport
       parentRoute: typeof LayoutRoute
     }
+    '/_layout/employees/create/': {
+      id: '/_layout/employees/create/'
+      path: '/employees/create'
+      fullPath: '/employees/create/'
+      preLoaderRoute: typeof LayoutEmployeesCreateIndexRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/employees/$id/edit/': {
+      id: '/_layout/employees/$id/edit/'
+      path: '/employees/$id/edit'
+      fullPath: '/employees/$id/edit/'
+      preLoaderRoute: typeof LayoutEmployeesIdEditIndexRouteImport
+      parentRoute: typeof LayoutRoute
+    }
   }
 }
 
 interface LayoutRouteChildren {
   LayoutIndexRoute: typeof LayoutIndexRoute
   LayoutEmployeesIndexRoute: typeof LayoutEmployeesIndexRoute
+  LayoutEmployeesCreateIndexRoute: typeof LayoutEmployeesCreateIndexRoute
+  LayoutEmployeesIdEditIndexRoute: typeof LayoutEmployeesIdEditIndexRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutIndexRoute: LayoutIndexRoute,
   LayoutEmployeesIndexRoute: LayoutEmployeesIndexRoute,
+  LayoutEmployeesCreateIndexRoute: LayoutEmployeesCreateIndexRoute,
+  LayoutEmployeesIdEditIndexRoute: LayoutEmployeesIdEditIndexRoute,
 }
 
 const LayoutRouteWithChildren =

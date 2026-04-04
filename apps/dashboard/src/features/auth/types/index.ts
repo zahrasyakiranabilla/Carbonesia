@@ -1,8 +1,18 @@
+/**
+ * User type for role-based access control
+ */
 export interface User {
   id: string
   email: string
   name: string
-  role: string
+  role: "admin" | "employee"
+}
+
+/**
+ * Check if user has admin role
+ */
+export function isAdmin(user: User | null): boolean {
+  return user?.role === "admin"
 }
 
 export interface AuthState {

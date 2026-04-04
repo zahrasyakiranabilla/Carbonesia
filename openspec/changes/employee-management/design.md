@@ -1,6 +1,7 @@
 ## Context
 
 Sistem Apotek Asasi saat ini memiliki:
+
 - Backend API Go dengan struktur fitur modular (auth, user, branch)
 - Model User yang sudah memiliki field `Active` untuk status aktif/nonaktif
 - Frontend dashboard dengan arsitektur TanStack Router dan feature-based organization
@@ -11,13 +12,15 @@ Fitur manajemen karyawan perlu ditambahkan untuk memungkinkan admin mengelola ak
 ## Goals / Non-Goals
 
 **Goals:**
+
 - Menambahkan endpoint API untuk CRUD karyawan (list, create, update, activate, deactivate)
 - Menambahkan halaman frontend untuk manajemen karyawan di dashboard admin
 - Seluruh konten menggunakan bahasa Indonesia
 - Mengikuti arsitektur yang sudah ada (feature-based, TanStack Router)
 
 **Non-Goals:**
-- Mengubah struktur role yang sudah ada
+
+- Multiple roles (apoteker, cashier, etc.) - hanya menggunakan role "employee"
 - Mengubah sistem autentikasi yang sudah ada
 - Fitur import/export data karyawan
 - Riwayat perubahan status karyawan (audit log)
@@ -29,6 +32,7 @@ Fitur manajemen karyawan perlu ditambahkan untuk memungkinkan admin mengelola ak
 **Decision:** Menggunakan endpoint baru di `/api/v1/users` dengan prefix admin
 
 **Alternatives considered:**
+
 - Menambah endpoint di `/api/v1/employees` - tidak konsisten dengan naming yang sudah ada
 - Memakai route yang sama dengan auth - terlalu banyak tanggung jawab di satu tempat
 
@@ -39,6 +43,7 @@ Fitur manajemen karyawan perlu ditambahkan untuk memungkinkan admin mengelola ak
 **Decision:** Menggunakan PATCH endpoint dengan payload `{ "active": true/false }`
 
 **Alternatives considered:**
+
 - DELETE endpoint - tidak tepat karena data tidak dihapus
 - POST endpoint terpisah untuk activate/deactivate - terlalu banyak endpoint
 
@@ -49,6 +54,7 @@ Fitur manajemen karyawan perlu ditambahkan untuk memungkinkan admin mengelola ak
 **Decision:** Implementasi server-side pagination dengan parameter `page` dan `limit`
 
 **Alternatives considered:**
+
 - Load all - tidak scalable untuk banyak user
 - Cursor-based pagination - lebih kompleks di implementasi
 
@@ -59,6 +65,7 @@ Fitur manajemen karyawan perlu ditambahkan untuk memungkinkan admin mengelola ak
 **Decision:** Menambahkan field `branch_id` di user model untuk mengaitkan karyawan dengan cabang
 
 **Alternatives considered:**
+
 - Tabel terpisah untuk company info - terlalu kompleks untuk fase awal
 - Hardcode - tidak fleksibel
 
@@ -69,6 +76,7 @@ Fitur manajemen karyawan perlu ditambahkan untuk memungkinkan admin mengelola ak
 **Decision:** Menggunakan format response `{ data: [...], meta: {...} }` untuk semua list endpoint
 
 **Response Structure:**
+
 ```go
 type PaginatedResponse struct {
     Data interface{}     `json:"data"`
@@ -84,6 +92,7 @@ type PaginationMeta struct {
 ```
 
 **Alternatives considered:**
+
 - Flat structure dengan fields langsung di response - tidak konsisten
 - Menggunakan array langsung - tidak ada metadata
 

@@ -13,21 +13,17 @@ http:
         "email": "{{email}}",
         "password": "{{password}}"
       }
-  headers:
-    Content-Type: application/json
 
-vars:
-  - name: accessToken
-    value: ""
-    type: string
-  - name: refreshToken
-    value: ""
-    type: string
+runtime:
+  variables:
+    - name: baseUrl
+      value: http://localhost:8080
+    - name: email
+      value: admin@apotekasasi.com
+    - name: password
+      value: admin123
 
 script:
-  preRequest: |
-    console.log("Logging in...");
-
   postResponse: |
     if (res.status === 200) {
       const body = res.body;

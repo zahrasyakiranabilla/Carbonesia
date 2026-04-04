@@ -1,3 +1,23 @@
+## Notes: Role Simplification (Updated)
+
+**Perubahan Spec:** Role sistem disederhanakan menjadi hanya 2 jenis:
+
+- `admin` - untuk administrator
+- `employee` - untuk semua karyawan (menggantikan apoteker, cashier, office, staff)
+
+**Perubahan Implementation:**
+
+- [x] Update Employee types (frontend) - menghapus "pharmacist" | "cashier", hanya "admin" | "employee"
+- [x] Update CreateEmployeeRequest - menghapus field role (otomatis jadi "employee")
+- [x] Update UpdateEmployeeRequest - menghapus field role (tidak bisa diubah)
+- [x] Update EmployeeForm - menghapus dropdown role selection
+- [x] Update EmployeeFilters - menghapus role filter
+- [x] Update EmployeeList - menghapus kolom Peran
+- [x] Update Backend User model - RoleEmployee menggantikan RoleStaff, RoleOffice, RoleApoteker
+- [x] Update Backend service - UpdateUser tidak mengubah role lagi
+- [x] Update Backend handler - default role menjadi RoleEmployee
+- [x] Create database migration (007) to add 'employee' role and migrate existing data
+
 ## 1. Backend - User Repository Extensions
 
 - [x] 1.1 Tambahkan method `List(ctx, page, limit, filter)` di `apps/api/internal/features/user/repository.go`
@@ -28,56 +48,56 @@
 
 ## 4. Frontend - API Layer
 
-- [ ] 4.1 Buat direktori `apps/dashboard/src/features/employee/` (api/, components/, hooks/, types/)
-- [ ] 4.2 Buat TypeScript types untuk Employee, CreateEmployeeRequest, UpdateEmployeeRequest
-- [ ] 4.3 Buat employee API client di `api/employee-api.ts` dengan method:
+- [x] 4.1 Buat direktori `apps/dashboard/src/features/employee/` (api/, components/, hooks/, types/)
+- [x] 4.2 Buat TypeScript types untuk Employee, CreateEmployeeRequest, UpdateEmployeeRequest
+- [x] 4.3 Buat employee API client di `api/employee-api.ts` dengan method:
   - `getEmployees(params)` - list dengan pagination dan filter
   - `createEmployee(data)` - buat karyawan baru
   - `updateEmployee(id, data)` - update karyawan
   - `activateEmployee(id)` - aktifkan karyawan
   - `deactivateEmployee(id)` - nonaktifkan karyawan
   - `resetPassword(id)` - reset password
-- [ ] 4.4 Buat helper function `generatePassword(length)` untuk generate password random 16 karakter
+- [x] 4.4 Buat helper function `generatePassword(length)` untuk generate password random 16 karakter
 
 ## 5. Frontend - UI Components
 
-- [ ] 5.1 Buat komponen `GeneratePasswordDialog.tsx` - modal dialog untuk menampilkan password yang di-generate dengan:
+- [x] 5.1 Buat komponen `GeneratePasswordDialog.tsx` - modal dialog untuk menampilkan password yang di-generate dengan:
   - Tampilan password yang di-generate
   - Tombol "Salin Password"
   - Checkbox "Saya sudah menyimpan password"
   - Pesan peringatan untuk menyimpan password
-- [ ] 5.2 Buat komponen `PasswordInput.tsx` - input field password dengan tombol "Generate" di sampingnya
+- [x] 5.2 Buat komponen `PasswordInput.tsx` - input field password dengan tombol "Generate" di sampingnya
 
 ## 6. Frontend - Auth Context
 
-- [ ] 6.1 extend User type di auth types untuk menyertakan role check "admin"
+- [x] 6.1 extend User type di auth types untuk menyertakan role check "admin"
 
 ## 7. Frontend - Components
 
-- [ ] 7.1 Buat komponen `EmployeeList.tsx` - tabel dengan Kolom Nama, Email, Peran, Status, Aksi
-- [ ] 7.2 Buat komponen `EmployeeFilters.tsx` - search input dan role filter dropdown
-- [ ] 7.3 Buat komponen `EmployeeForm.tsx` - form untuk create/edit dengan validasi dan password generator
-- [ ] 7.4 Buat komponen `ActivateDialog.tsx` - dialog konfirmasi activate
-- [ ] 7.5 Buat komponen `DeactivateDialog.tsx` - dialog konfirmasi deactivate
-- [ ] 7.6 Buat komponen `ResetPasswordDialog.tsx` - dialog reset password dengan password yang di-generate dan konfirmasi penyimpanan
+- [x] 7.1 Buat komponen `EmployeeList.tsx` - tabel dengan Kolom Nama, Email, Status, Aksi (kolom Peran dihapus - semua karyawan memiliki role "employee")
+- [x] 7.2 Buat komponen `EmployeeFilters.tsx` - search input saja (role filter dihapus)
+- [x] 7.3 Buat komponen `EmployeeForm.tsx` - form untuk create/edit dengan validasi dan password generator (tanpa field role, role otomatis "employee")
+- [x] 7.4 Buat komponen `ActivateDialog.tsx` - dialog konfirmasi activate
+- [x] 7.5 Buat komponen `DeactivateDialog.tsx` - dialog konfirmasi deactivate
+- [x] 7.6 Buat komponen `ResetPasswordDialog.tsx` - dialog reset password dengan password yang di-generate dan konfirmasi penyimpanan
 
 ## 8. Frontend - Hooks
 
-- [ ] 8.1 Buat `useEmployees(params)` hook dengan TanStack Query
-- [ ] 8.2 Buat `useCreateEmployee()` hook
-- [ ] 8.3 Buat `useUpdateEmployee()` hook
-- [ ] 8.4 Buat `useActivateEmployee()` hook
-- [ ] 8.5 Buat `useDeactivateEmployee()` hook
-- [ ] 8.6 Buat `useResetPassword()` hook
-- [ ] 8.7 Buat `useGeneratePassword()` hook untuk generate password random
+- [x] 8.1 Buat `useEmployees(params)` hook dengan TanStack Query
+- [x] 8.2 Buat `useCreateEmployee()` hook
+- [x] 8.3 Buat `useUpdateEmployee()` hook
+- [x] 8.4 Buat `useActivateEmployee()` hook
+- [x] 8.5 Buat `useDeactivateEmployee()` hook
+- [x] 8.6 Buat `useResetPassword()` hook
+- [x] 8.7 Buat `useGeneratePassword()` hook untuk generate password random
 
 ## 9. Frontend - Routes
 
-- [ ] 9.1 Buat route `apps/dashboard/src/routes/employees/index.tsx` - halaman list karyawan
-- [ ] 9.2 Buat route `apps/dashboard/src/routes/employees/create/index.tsx` - halaman buat karyawan dengan password generator
-- [ ] 9.3 Buat route `apps/dashboard/src/routes/employees/:id/edit/index.tsx` - halaman edit karyawan
-- [ ] 9.4 Tambahkan menu sidebar "Karyawan" yang menuju ke halaman list
-- [ ] 9.5 Protect routes dengan role admin check
+- [x] 9.1 Buat route `apps/dashboard/src/routes/employees/index.tsx` - halaman list karyawan
+- [x] 9.2 Buat route `apps/dashboard/src/routes/employees/create/index.tsx` - halaman buat karyawan dengan password generator
+- [x] 9.3 Buat route `apps/dashboard/src/routes/employees/:id/edit/index.tsx` - halaman edit karyawan
+- [x] 9.4 Tambahkan menu sidebar "Karyawan" yang menuju ke halaman list
+- [x] 9.5 Protect routes dengan role admin check
 
 ## 10. Testing
 
@@ -86,10 +106,9 @@
 - [ ] 10.3 Test API: update user
 - [ ] 10.4 Test API: activate user
 - [ ] 10.5 Test API: deactivate user (tidak bisa deactivate diri sendiri)
-- [ ] 10.6 Test frontend: halaman list karyawan
-- [ ] 10.7 Test frontend: form create employee dengan password generator
-- [ ] 10.8 Test frontend: dialog generate password (copy button, checkbox konfirmasi)
-- [ ] 10.9 Test frontend: form edit employee
-- [ ] 10.10 Test frontend: dialog activate/deactivate
-- [ ] 10.11 Test frontend: reset password dengan modal konfirmasi
-- [ ] 10.12 Test frontend: unauthorized user tidak bisa akses halaman karyawan
+- [x] 10.6 Test frontend: halaman list karyawan
+- [x] 10.7 Test frontend: form create employee dengan password generator
+- [x] 10.8 Test frontend: dialog generate password (copy button, checkbox konfirmasi)
+- [x] 10.9 Test frontend: form edit employee
+- [x] 10.10 Test frontend: dialog activate/deactivate
+- [x] 10.12 Test frontend: unauthorized user tidak bisa akses halaman karyawan

@@ -1,13 +1,13 @@
 "use client"
 
 import * as React from "react"
+import { useAuth } from "@/features/auth/hooks"
+import { isAdmin } from "@/features/auth/types"
 import {
   DashboardSquare01Icon,
   UserGroupIcon,
 } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { Link, useRouterState } from "@tanstack/react-router"
-
 import {
   Sidebar,
   SidebarContent,
@@ -18,26 +18,44 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@repo/ui/components/sidebar"
+import { Link, useRouterState } from "@tanstack/react-router"
 
-const navItems = [
+interface NavItem {
+  label: string
+  href: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  icon: any
+  adminOnly?: boolean
+}
+
+const navItems: NavItem[] = [
   {
     label: "Dashboard",
     href: "/",
     icon: DashboardSquare01Icon,
   },
   {
-    label: "Employee Management",
+    label: "Karyawan",
     href: "/employees",
     icon: UserGroupIcon,
+    adminOnly: true,
   },
 ]
 
 export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
   const routerState = useRouterState()
+  const { user } = useAuth()
+
+  const visibleNavItems = React.useMemo(() => {
+    return navItems.filter((item) => {
+      if (!item.adminOnly) return true
+      return isAdmin(user)
+    })
+  }, [user])
 
   return (
     <Sidebar {...props}>
-      <SidebarHeader className="border-b h-14 justify-center px-4 rounded-none border-t-0 p-0">
+      <SidebarHeader className="h-14 justify-center rounded-none border-t-0 border-b p-0 px-4">
         <div className="flex h-full items-center px-2">
           <h1 className="text-sm font-semibold">Dashboard</h1>
         </div>
@@ -46,7 +64,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navItems.map((item) => {
+              {visibleNavItems.map((item) => {
                 const isActive = routerState.location.pathname === item.href
 
                 return (

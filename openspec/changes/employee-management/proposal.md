@@ -13,13 +13,15 @@ Sistem Apotek Asasi saat ini belum memiliki fitur manajemen karyawan. Admin perl
 ## Capabilities
 
 ### New Capabilities
-- `employee-list`: Menampilkan daftar semua karyawan dengan informasi dasar (nama, email, peran, status aktif)
-- `employee-create`: Formulir untuk membuat akun karyawan baru dengan field nama, email, password, dan peran
-- `employee-edit`: Formulir untuk mengedit informasi karyawan yang sudah ada
+
+- `employee-list`: Menampilkan daftar semua karyawan dengan informasi dasar (nama, email, status aktif)
+- `employee-create`: Formulir untuk membuat akun karyawan baru dengan field nama, email, password. Peran otomatis di-set sebagai "employee"
+- `employee-edit`: Formulir untuk mengedit informasi karyawan yang sudah ada (nama dan email saja, peran tidak dapat diubah)
 - `employee-activate`: Fitur untuk mengaktifkan akun karyawan yang nonaktif
 - `employee-deactivate`: Fitur untuk menonaktifkan akun karyawan (tanpa menghapus data)
 
 ### Modified Capabilities
+
 - Tidak ada
 
 ## Impact

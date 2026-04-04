@@ -12,7 +12,7 @@
 import * as React from "react"
 import { useNavigate } from "@tanstack/react-router"
 
-import { proactiveRefresh } from "../api/api-client"
+import { proactiveRefresh, setAuthErrorCallback } from "../api/api-client"
 import {
   getCurrentUser,
   login as loginApi,
@@ -44,6 +44,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
   })
 
   /**
+   * Set up auth error callback for API client
+   * This handles redirect when refresh token fails
+   */
+  React.useEffect(() => {
+    const handleAuthError = () => {
+      setState({
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+      })
+      navigate({ to: "/login", search: { redirect: window.location.pathname } })
+    }
+
+    setAuthErrorCallback(handleAuthError)
+
+    return () => {
+      setAuthErrorCallback(null)
+    }
+  }, [navigate])
+
+  /**
    * Initialize auth on mount
    * Try to restore session via refresh endpoint (refresh token in cookie)
    */
@@ -68,7 +89,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             isLoading: false,
           })
         }
-      } catch (error) {
+      } catch {
         // Refresh failed or no session
         clearAccessToken()
         setState({
