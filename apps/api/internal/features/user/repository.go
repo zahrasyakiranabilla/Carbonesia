@@ -9,7 +9,7 @@ import (
 
 // UserFilter represents filter options for listing users
 type UserFilter struct {
-	Role   string // "office", "apoteker", "staff", "admin"
+	Role   string // "employee", "admin"
 	Active *bool  // nil = all, true = active only, false = inactive only
 	Search string // search by name or email
 }

@@ -63,7 +63,7 @@ func TestGenerateAccessToken(t *testing.T) {
 	u := &user.User{
 		ID:    "test-user-id",
 		Email: "test@example.com",
-		Role:  user.RoleStaff,
+		Role:  user.RoleEmployee,
 	}
 	secret := "test-secret-key"
 
@@ -81,7 +81,7 @@ func TestValidateToken(t *testing.T) {
 	u := &user.User{
 		ID:    "test-user-id",
 		Email: "test@example.com",
-		Role:  user.RoleStaff,
+		Role:  user.RoleEmployee,
 	}
 	secret := "test-secret-key"
 
@@ -112,7 +112,7 @@ func TestValidateTokenWithWrongSecret(t *testing.T) {
 	u := &user.User{
 		ID:    "test-user-id",
 		Email: "test@example.com",
-		Role:  user.RoleStaff,
+		Role:  user.RoleEmployee,
 	}
 	secret := "test-secret-key"
 
