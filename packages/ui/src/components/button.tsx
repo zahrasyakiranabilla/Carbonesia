@@ -38,6 +38,17 @@ const buttonVariants = cva(
   }
 )
 
+/**
+ * Render a custom element inside the button.
+ * Use this instead of `asChild` when you need to render a different element
+ * (e.g., Link, a, etc.) while maintaining button styling.
+ *
+ * @example
+ * ```tsx
+ * <Button variant="ghost" render={<Link to="/email/new"><PencilIcon />Compose</Link>} />
+ * ```
+ */
+
 function Button({
   className,
   variant = "default",

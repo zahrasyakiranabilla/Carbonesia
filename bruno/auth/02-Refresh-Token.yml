@@ -1,0 +1,32 @@
+info:
+  name: 02 Refresh Token
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{baseUrl}}/api/auth/refresh"
+  body:
+    type: json
+    data: |-
+      {
+        "refresh_token": "{{refreshToken}}"
+      }
+  headers:
+    Content-Type: application/json
+
+script:
+  postResponse: |
+    if (res.status === 200) {
+      const body = res.body;
+      if (body.access_token) {
+        bru.setVar("accessToken", body.access_token);
+      }
+      if (body.refresh_token) {
+        bru.setVar("refreshToken", body.refresh_token);
+      }
+    }
+
+settings:
+  encodeUrl: true
+  timeout: 0

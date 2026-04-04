@@ -1,9 +1,9 @@
-import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
-
-import appCss from "@repo/ui/globals.css?url"
-import { Navbar } from "../components/navbar"
-import { Footer } from "../components/footer"
 import { TooltipProvider } from "@repo/ui/components/tooltip"
+import appCss from "@repo/ui/globals.css?url"
+import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router"
+
+import { Footer } from "../components/footer"
+import { Navbar } from "../components/navbar"
 
 export const Route = createRootRoute({
   head: () => ({

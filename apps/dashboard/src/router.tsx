@@ -18,3 +18,13 @@ declare module "@tanstack/react-router" {
     router: ReturnType<typeof getRouter>
   }
 }
+
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: ReturnType<typeof getRouter>
+  }
+
+  interface StaticDataRouteOption {
+    // Empty - for future route metadata
+  }
+}

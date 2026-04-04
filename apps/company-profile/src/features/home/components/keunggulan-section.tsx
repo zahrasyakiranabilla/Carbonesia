@@ -1,9 +1,15 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui/components/card"
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@repo/ui/components/card"
 
 const keunggulanData = [
   {
     title: "Terpercaya",
-    description: "Berpengalaman lebih dari 10 tahun melayani masyarakat dengan integritas tinggi.",
+    description:
+      "Berpengalaman lebih dari 10 tahun melayani masyarakat dengan integritas tinggi.",
     icon: (
       <>
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
@@ -13,7 +19,8 @@ const keunggulanData = [
   },
   {
     title: "Ramah & Profesional",
-    description: "Apoteker dan staf kami siap memberikan konsultasi dengan sikap ramah dan profesional.",
+    description:
+      "Apoteker dan staf kami siap memberikan konsultasi dengan sikap ramah dan profesional.",
     icon: (
       <>
         <circle cx="12" cy="12" r="10" />
@@ -26,7 +33,8 @@ const keunggulanData = [
   },
   {
     title: "Harga Terjangkau",
-    description: "Menawarkan harga yang kompetitif tanpa mengorbankan kualitas produk dan layanan.",
+    description:
+      "Menawarkan harga yang kompetitif tanpa mengorbankan kualitas produk dan layanan.",
     icon: (
       <>
         <rect width="18" height="18" x="3" y="3" rx="2" />
@@ -37,7 +45,8 @@ const keunggulanData = [
   },
   {
     title: "Lokasi Strategis",
-    description: "Mudah diakses dengan area parkir yang luas dan transportasi umum yang dekat.",
+    description:
+      "Mudah diakses dengan area parkir yang luas dan transportasi umum yang dekat.",
     icon: (
       <>
         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z" />
@@ -52,7 +61,9 @@ export function KeunggulanSection() {
     <section className="py-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          <h2 className="font-heading text-3xl font-bold sm:text-4xl">Keunggulan Kami</h2>
+          <h2 className="font-heading text-3xl font-bold sm:text-4xl">
+            Keunggulan Kami
+          </h2>
           <p className="mt-4 text-muted-foreground">
             Mengapa memilih Apotek Asasi untuk kebutuhan kesehatan Anda
           </p>
@@ -79,7 +90,7 @@ export function KeunggulanSection() {
                 </div>
                 <CardTitle className="text-base">{item.title}</CardTitle>
               </CardHeader>
-              <CardContent className="text-sm text-muted-foreground text-pretty">
+              <CardContent className="text-sm text-pretty text-muted-foreground">
                 {item.description}
               </CardContent>
             </Card>

@@ -1,4 +1,9 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui/components/card"
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@repo/ui/components/card"
 
 export function VisiMisiSection() {
   return (
@@ -27,9 +32,10 @@ export function VisiMisiSection() {
               </div>
               <CardTitle className="text-xl">Visi</CardTitle>
             </CardHeader>
-            <CardContent className="text-muted-foreground text-pretty">
-              Menjadi apotek terpercaya yang memberikan kontribusi nyata bagi kesehatan
-              masyarakat dengan menyediakan produk farmasi berkualitas dan pelayanan profesional.
+            <CardContent className="text-pretty text-muted-foreground">
+              Menjadi apotek terpercaya yang memberikan kontribusi nyata bagi
+              kesehatan masyarakat dengan menyediakan produk farmasi berkualitas
+              dan pelayanan profesional.
             </CardContent>
           </Card>
 
@@ -56,11 +62,16 @@ export function VisiMisiSection() {
             </CardHeader>
             <CardContent>
               <ul className="list-inside list-disc space-y-2 text-muted-foreground">
-                <li>Menyediakan obat-obatan dan produk kesehatan berkualitas</li>
+                <li>
+                  Menyediakan obat-obatan dan produk kesehatan berkualitas
+                </li>
                 <li>Memberikan pelayanan farmasi yang profesional dan ramah</li>
                 <li>Memberikan edukasi kesehatan kepada masyarakat</li>
                 <li>Menjaga keterjangkauan harga untuk semua kalangan</li>
-                <li>Mengembangkan kompetensi sumber daya manusia secara berkelanjutan</li>
+                <li>
+                  Mengembangkan kompetensi sumber daya manusia secara
+                  berkelanjutan
+                </li>
               </ul>
             </CardContent>
           </Card>

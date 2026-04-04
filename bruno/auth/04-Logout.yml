@@ -1,0 +1,19 @@
+info:
+  name: 04 Logout
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{baseUrl}}/api/auth/logout"
+  body:
+    type: json
+    data: |-
+      {
+        "refresh_token": "{{refreshToken}}"
+      }
+  headers:
+    Content-Type: application/json
+
+settings:
+  encodeUrl: true

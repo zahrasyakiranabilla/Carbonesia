@@ -26,6 +26,7 @@ export const tanstackStartConfig = [
     ".vinxi/**",
     ".tsr/**",
     "build/**",
+    "**/routeTree.gen.ts",
   ]),
   {
     ...pluginReact.configs.flat.recommended,

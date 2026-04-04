@@ -12,6 +12,33 @@ type Response struct {
 	Error   string      `json:"error,omitempty"`
 }
 
+// PaginationMeta contains pagination information
+type PaginationMeta struct {
+	Page       int `json:"page"`
+	Limit      int `json:"limit"`
+	Total      int `json:"total"`
+	TotalPages int `json:"total_pages"`
+}
+
+// PaginatedResponse represents a paginated API response
+type PaginatedResponse struct {
+	Data interface{}     `json:"data"`
+	Meta *PaginationMeta `json:"meta"`
+}
+
+// NewPaginatedResponse creates a new paginated response
+func NewPaginatedResponse(data interface{}, page, limit, total, totalPages int) *PaginatedResponse {
+	return &PaginatedResponse{
+		Data: data,
+		Meta: &PaginationMeta{
+			Page:       page,
+			Limit:      limit,
+			Total:      total,
+			TotalPages: totalPages,
+		},
+	}
+}
+
 // WriteJSON writes a JSON response
 func WriteJSON(w http.ResponseWriter, status int, data interface{}) {
 	w.Header().Set("Content-Type", "application/json")
