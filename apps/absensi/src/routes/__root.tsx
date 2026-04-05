@@ -1,6 +1,11 @@
+import * as React from "react"
+import { Toaster } from "@repo/ui/components/sonner"
 import { TooltipProvider } from "@repo/ui/components/tooltip"
 import appCss from "@repo/ui/globals.css?url"
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router"
+
+import { QueryProvider } from "../components/providers/query-provider"
+import { AuthProvider } from "../features/auth"
 
 export const Route = createRootRoute({
   head: () => ({
@@ -33,7 +38,12 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <TooltipProvider>{children}</TooltipProvider>
+        <QueryProvider>
+          <AuthProvider>
+            <TooltipProvider>{children}</TooltipProvider>
+            <Toaster />
+          </AuthProvider>
+        </QueryProvider>
         <Scripts />
       </body>
     </html>

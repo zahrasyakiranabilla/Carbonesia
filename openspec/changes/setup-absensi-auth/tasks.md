@@ -28,11 +28,11 @@
 
 ## 6. Setup Providers and Router
 
-- [ ] 6.1 Create `apps/absensi/src/lib/query-client.ts` (copy from dashboard)
-- [ ] 6.2 Create `apps/absensi/src/components/providers/query-provider.tsx` (copy from dashboard)
-- [ ] 6.3 Create `apps/absensi/src/components/providers/index.ts` (copy from dashboard)
-- [ ] 6.4 Wrap app with QueryProvider in `apps/absensi/src/main.tsx` or root component
-- [ ] 6.5 Wrap app with AuthProvider in root component
+- [x] 6.1 Create `apps/absensi/src/lib/query-client.ts` (copy from dashboard)
+- [x] 6.2 Create `apps/absensi/src/components/providers/query-provider.tsx` (copy from dashboard)
+- [x] 6.3 Create `apps/absensi/src/components/providers/index.ts` (copy from dashboard)
+- [x] 6.4 Wrap app with QueryProvider in `apps/absensi/src/main.tsx` or root component
+- [x] 6.5 Wrap app with AuthProvider in root component
 
 ## 7. Create Login Route and Protected Layout
 
