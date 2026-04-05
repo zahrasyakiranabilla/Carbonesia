@@ -6,7 +6,7 @@ import {
 } from "@repo/ui/components/card"
 import { createFileRoute } from "@tanstack/react-router"
 
-export const Route = createFileRoute("/")({ component: UnderConstruction })
+export const Route = createFileRoute("/_layout/")({ component: UnderConstruction })
 
 function UnderConstruction() {
   return (
