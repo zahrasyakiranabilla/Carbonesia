@@ -80,7 +80,8 @@ export function LoginPage({ redirect }: { redirect?: string }) {
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Login Admin</CardTitle>
           <CardDescription>
-            Masukkan email dan kata sandi untuk mengakses dashboard
+            Masukkan email dan kata sandi untuk mengakses website absensi
+            pegawai.
           </CardDescription>
         </CardHeader>
         <CardContent>
