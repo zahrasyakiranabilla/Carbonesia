@@ -12,19 +12,19 @@
 
 ## 3. Implement API Client
 
-- [ ] 3.1 Copy `apps/dashboard/src/features/auth/api/api-client.ts` to absensi (same implementation)
-- [ ] 3.2 Copy `apps/dashboard/src/features/auth/api/auth-api.ts` to absensi (same implementation)
+- [x] 3.1 Copy `apps/dashboard/src/features/auth/api/api-client.ts` to absensi (same implementation)
+- [x] 3.2 Copy `apps/dashboard/src/features/auth/api/auth-api.ts` to absensi (same implementation)
 
 ## 4. Create Login Schema and Form
 
-- [ ] 4.1 Copy `apps/dashboard/src/features/auth/schemas/login-schema.ts` to absensi
-- [ ] 4.2 Copy `apps/dashboard/src/features/auth/components/login-page.tsx` to absensi
-- [ ] 4.3 Copy `apps/dashboard/src/features/auth/components/index.ts` to absensi
+- [x] 4.1 Copy `apps/dashboard/src/features/auth/schemas/login-schema.ts` to absensi
+- [x] 4.2 Copy `apps/dashboard/src/features/auth/components/login-page.tsx` to absensi
+- [x] 4.3 Copy `apps/dashboard/src/features/auth/components/index.ts` to absensi
 
 ## 5. Implement Auth Provider
 
-- [ ] 5.1 Copy `apps/dashboard/src/features/auth/hooks/use-auth.tsx` to absensi
-- [ ] 5.2 Copy `apps/dashboard/src/features/auth/hooks/index.ts` to absensi
+- [x] 5.1 Copy `apps/dashboard/src/features/auth/hooks/use-auth.tsx` to absensi
+- [x] 5.2 Copy `apps/dashboard/src/features/auth/hooks/index.ts` to absensi
 
 ## 6. Setup Providers and Router
 
