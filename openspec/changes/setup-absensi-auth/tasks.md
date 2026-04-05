@@ -36,14 +36,14 @@
 
 ## 7. Create Login Route and Protected Layout
 
-- [ ] 7.1 Create `apps/absensi/src/routes/login/index.tsx` using login-page component
-- [ ] 7.2 Create `apps/absensi/src/routes/_layout.tsx` with auth protection and RBAC (copy from dashboard)
-- [ ] 7.3 Update `apps/absensi/src/router.tsx` to include login route and protected layout
+- [x] 7.1 Create `apps/absensi/src/routes/login/index.tsx` using login-page component
+- [x] 7.2 Create `apps/absensi/src/routes/_layout.tsx` with auth protection and RBAC (copy from dashboard)
+- [x] 7.3 Update `apps/absensi/src/router.tsx` to include login route and protected layout
 
 ## 8. Test and Verify
 
-- [ ] 8.1 Run `pnpm --filter absensi dev` to start development server
-- [ ] 8.2 Verify login page loads at /login
-- [ ] 8.3 Test login flow with valid credentials
-- [ ] 8.4 Verify redirect to login when unauthenticated
-- [ ] 8.5 Verify RBAC blocks non-admin users
+- [x] 8.1 Run `pnpm --filter absensi dev` to start development server
+- [x] 8.2 Verify login page loads at /login
+- [x] 8.3 Test login flow with valid credentials
+- [x] 8.4 Verify redirect to login when unauthenticated
+- [x] 8.5 Verify RBAC blocks non-admin users

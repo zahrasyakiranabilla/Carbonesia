@@ -49,22 +49,22 @@ The system SHALL automatically restore session on page load using refresh token 
 
 ### Requirement: Role-based access control
 
-The system SHALL restrict access to absensi app based on user role.
+The system SHALL restrict access to absensi app based on user role. Only employee role can access the absensi app.
 
-#### Scenario: Admin accesses absensi
-
-- **WHEN** user with admin role authenticates
-- **THEN** system allows full access to absensi dashboard
-
-#### Scenario: Employee attempts to access absensi
+#### Scenario: Employee accesses absensi
 
 - **WHEN** user with employee role authenticates
+- **THEN** system allows full access to absensi dashboard
+
+#### Scenario: Admin attempts to access absensi
+
+- **WHEN** user with admin role authenticates
 - **THEN** system shows "Access Denied" page with logout option
 
 #### Scenario: No role assignment
 
 - **WHEN** user has no role assigned
-- **THEN** system treats as non-admin, shows access denied
+- **THEN** system treats as non-employee, shows access denied
 
 ### Requirement: User can logout
 

@@ -15,6 +15,13 @@ export function isAdmin(user: User | null): boolean {
   return user?.role === "admin"
 }
 
+/**
+ * Check if user has employee role
+ */
+export function isEmployee(user: User | null): boolean {
+  return user?.role === "employee"
+}
+
 export interface AuthState {
   user: User | null
   isAuthenticated: boolean
