@@ -16,6 +16,7 @@
     "@hugeicons/core-free-icons": "^4.0.0",
     "@hugeicons/react": "^1.1.6",
     "@repo/ui": "workspace:*",
+    "@repo/assets": "workspace:*",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-form": "^1.28.6",
     "@tanstack/react-form-start": "^1.28.6",

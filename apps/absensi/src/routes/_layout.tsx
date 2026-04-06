@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from "react"
+import logo from "@repo/assets/images/logo-apotek.png"
 import { Button } from "@repo/ui/components/button"
 import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router"
 
@@ -48,10 +49,11 @@ function AbsensiLayout() {
   if (isLoading) {
     return (
       <div className="flex min-h-svh items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="size-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-          <p className="text-muted-foreground">Loading...</p>
-        </div>
+        <img
+          src={logo}
+          alt="Apotek Asasi"
+          className="animate-pulse-opacity h-24 w-auto"
+        />
       </div>
     )
   }
