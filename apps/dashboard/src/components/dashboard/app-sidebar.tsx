@@ -55,7 +55,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
 
   return (
     <Sidebar {...props}>
-      <SidebarHeader className="h-14 justify-center rounded-none border-t-0 border-b p-0 px-4">
+      <SidebarHeader className="h-14 justify-center rounded-none border-t-0 border-b bg-secondary/50 p-0 px-4">
         <div className="flex h-full items-center px-2">
           <h1 className="text-sm font-semibold">Dashboard</h1>
         </div>

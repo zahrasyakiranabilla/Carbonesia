@@ -60,7 +60,7 @@ function DashboardLayout() {
         <img
           src={logo}
           alt="Apotek Asasi"
-          className="animate-pulse-opacity h-24 w-auto"
+          className="h-24 w-auto animate-pulse-opacity"
         />
       </div>
     )
@@ -75,18 +75,21 @@ function DashboardLayout() {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex h-14 shrink-0 items-center justify-between border-b bg-background px-4 lg:px-6">
+        <header className="flex h-14 shrink-0 items-center justify-between bg-primary px-4 text-primary-foreground lg:px-6">
           <div className="flex items-center gap-4">
-            <SidebarTrigger />
+            <SidebarTrigger className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground" />
           </div>
           <div className="flex items-center gap-4">
             {user && (
-              <span className="hidden text-xs text-muted-foreground sm:inline-block">
+              <span className="hidden text-xs sm:inline-block">
                 {user.email}
               </span>
             )}
-            <Separator orientation="vertical" className="hidden h-6 sm:block" />
-            <Button variant="outline" size="sm" onClick={handleLogout}>
+            <Separator
+              orientation="vertical"
+              className="hidden h-8 bg-primary-foreground/30 sm:block"
+            />
+            <Button variant="secondary" size="sm" onClick={handleLogout}>
               Logout
             </Button>
           </div>

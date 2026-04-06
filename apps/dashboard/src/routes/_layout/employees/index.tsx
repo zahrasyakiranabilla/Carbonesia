@@ -128,9 +128,6 @@ function EmployeeManagement() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold">Manajemen Karyawan</h1>
-          <p className="text-muted-foreground">
-            Kelola data karyawan dan akses sistem
-          </p>
         </div>
         <Button
           className="gap-2"
