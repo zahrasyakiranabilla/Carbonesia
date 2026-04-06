@@ -11,6 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProfilPerusahaanIndexRouteImport } from './routes/profil-perusahaan/index'
+import { Route as PengajuanIndexRouteImport } from './routes/pengajuan/index'
+import { Route as KritikDanSaranIndexRouteImport } from './routes/kritik-dan-saran/index'
+import { Route as InformasiPromoIndexRouteImport } from './routes/informasi/promo/index'
+import { Route as InformasiMembershipIndexRouteImport } from './routes/informasi/membership/index'
+import { Route as InformasiLayananIndexRouteImport } from './routes/informasi/layanan/index'
+import { Route as InformasiEventIndexRouteImport } from './routes/informasi/event/index'
+import { Route as InformasiArtikelIndexRouteImport } from './routes/informasi/artikel/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +29,123 @@ const ProfilPerusahaanIndexRoute = ProfilPerusahaanIndexRouteImport.update({
   path: '/profil-perusahaan/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PengajuanIndexRoute = PengajuanIndexRouteImport.update({
+  id: '/pengajuan/',
+  path: '/pengajuan/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KritikDanSaranIndexRoute = KritikDanSaranIndexRouteImport.update({
+  id: '/kritik-dan-saran/',
+  path: '/kritik-dan-saran/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InformasiPromoIndexRoute = InformasiPromoIndexRouteImport.update({
+  id: '/informasi/promo/',
+  path: '/informasi/promo/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InformasiMembershipIndexRoute =
+  InformasiMembershipIndexRouteImport.update({
+    id: '/informasi/membership/',
+    path: '/informasi/membership/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const InformasiLayananIndexRoute = InformasiLayananIndexRouteImport.update({
+  id: '/informasi/layanan/',
+  path: '/informasi/layanan/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InformasiEventIndexRoute = InformasiEventIndexRouteImport.update({
+  id: '/informasi/event/',
+  path: '/informasi/event/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InformasiArtikelIndexRoute = InformasiArtikelIndexRouteImport.update({
+  id: '/informasi/artikel/',
+  path: '/informasi/artikel/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/kritik-dan-saran/': typeof KritikDanSaranIndexRoute
+  '/pengajuan/': typeof PengajuanIndexRoute
   '/profil-perusahaan/': typeof ProfilPerusahaanIndexRoute
+  '/informasi/artikel/': typeof InformasiArtikelIndexRoute
+  '/informasi/event/': typeof InformasiEventIndexRoute
+  '/informasi/layanan/': typeof InformasiLayananIndexRoute
+  '/informasi/membership/': typeof InformasiMembershipIndexRoute
+  '/informasi/promo/': typeof InformasiPromoIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/kritik-dan-saran': typeof KritikDanSaranIndexRoute
+  '/pengajuan': typeof PengajuanIndexRoute
   '/profil-perusahaan': typeof ProfilPerusahaanIndexRoute
+  '/informasi/artikel': typeof InformasiArtikelIndexRoute
+  '/informasi/event': typeof InformasiEventIndexRoute
+  '/informasi/layanan': typeof InformasiLayananIndexRoute
+  '/informasi/membership': typeof InformasiMembershipIndexRoute
+  '/informasi/promo': typeof InformasiPromoIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/kritik-dan-saran/': typeof KritikDanSaranIndexRoute
+  '/pengajuan/': typeof PengajuanIndexRoute
   '/profil-perusahaan/': typeof ProfilPerusahaanIndexRoute
+  '/informasi/artikel/': typeof InformasiArtikelIndexRoute
+  '/informasi/event/': typeof InformasiEventIndexRoute
+  '/informasi/layanan/': typeof InformasiLayananIndexRoute
+  '/informasi/membership/': typeof InformasiMembershipIndexRoute
+  '/informasi/promo/': typeof InformasiPromoIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/profil-perusahaan/'
+  fullPaths:
+    | '/'
+    | '/kritik-dan-saran/'
+    | '/pengajuan/'
+    | '/profil-perusahaan/'
+    | '/informasi/artikel/'
+    | '/informasi/event/'
+    | '/informasi/layanan/'
+    | '/informasi/membership/'
+    | '/informasi/promo/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/profil-perusahaan'
-  id: '__root__' | '/' | '/profil-perusahaan/'
+  to:
+    | '/'
+    | '/kritik-dan-saran'
+    | '/pengajuan'
+    | '/profil-perusahaan'
+    | '/informasi/artikel'
+    | '/informasi/event'
+    | '/informasi/layanan'
+    | '/informasi/membership'
+    | '/informasi/promo'
+  id:
+    | '__root__'
+    | '/'
+    | '/kritik-dan-saran/'
+    | '/pengajuan/'
+    | '/profil-perusahaan/'
+    | '/informasi/artikel/'
+    | '/informasi/event/'
+    | '/informasi/layanan/'
+    | '/informasi/membership/'
+    | '/informasi/promo/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  KritikDanSaranIndexRoute: typeof KritikDanSaranIndexRoute
+  PengajuanIndexRoute: typeof PengajuanIndexRoute
   ProfilPerusahaanIndexRoute: typeof ProfilPerusahaanIndexRoute
+  InformasiArtikelIndexRoute: typeof InformasiArtikelIndexRoute
+  InformasiEventIndexRoute: typeof InformasiEventIndexRoute
+  InformasiLayananIndexRoute: typeof InformasiLayananIndexRoute
+  InformasiMembershipIndexRoute: typeof InformasiMembershipIndexRoute
+  InformasiPromoIndexRoute: typeof InformasiPromoIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +164,68 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfilPerusahaanIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pengajuan/': {
+      id: '/pengajuan/'
+      path: '/pengajuan'
+      fullPath: '/pengajuan/'
+      preLoaderRoute: typeof PengajuanIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kritik-dan-saran/': {
+      id: '/kritik-dan-saran/'
+      path: '/kritik-dan-saran'
+      fullPath: '/kritik-dan-saran/'
+      preLoaderRoute: typeof KritikDanSaranIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/informasi/promo/': {
+      id: '/informasi/promo/'
+      path: '/informasi/promo'
+      fullPath: '/informasi/promo/'
+      preLoaderRoute: typeof InformasiPromoIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/informasi/membership/': {
+      id: '/informasi/membership/'
+      path: '/informasi/membership'
+      fullPath: '/informasi/membership/'
+      preLoaderRoute: typeof InformasiMembershipIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/informasi/layanan/': {
+      id: '/informasi/layanan/'
+      path: '/informasi/layanan'
+      fullPath: '/informasi/layanan/'
+      preLoaderRoute: typeof InformasiLayananIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/informasi/event/': {
+      id: '/informasi/event/'
+      path: '/informasi/event'
+      fullPath: '/informasi/event/'
+      preLoaderRoute: typeof InformasiEventIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/informasi/artikel/': {
+      id: '/informasi/artikel/'
+      path: '/informasi/artikel'
+      fullPath: '/informasi/artikel/'
+      preLoaderRoute: typeof InformasiArtikelIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  KritikDanSaranIndexRoute: KritikDanSaranIndexRoute,
+  PengajuanIndexRoute: PengajuanIndexRoute,
   ProfilPerusahaanIndexRoute: ProfilPerusahaanIndexRoute,
+  InformasiArtikelIndexRoute: InformasiArtikelIndexRoute,
+  InformasiEventIndexRoute: InformasiEventIndexRoute,
+  InformasiLayananIndexRoute: InformasiLayananIndexRoute,
+  InformasiMembershipIndexRoute: InformasiMembershipIndexRoute,
+  InformasiPromoIndexRoute: InformasiPromoIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
