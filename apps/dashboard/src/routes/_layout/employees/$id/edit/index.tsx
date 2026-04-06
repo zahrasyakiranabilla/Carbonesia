@@ -40,12 +40,6 @@ function EmployeeFormContent({
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Informasi Karyawan</CardTitle>
-        <CardDescription>
-          Perbarui formulir di bawah untuk mengubah data karyawan
-        </CardDescription>
-      </CardHeader>
       <CardContent>
         <EmployeeForm
           employee={employee}

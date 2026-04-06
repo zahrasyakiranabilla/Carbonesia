@@ -1,10 +1,12 @@
 import { useEffect, useMemo } from "react"
+import logo from "@repo/assets/images/logo-apotek.png"
 import { Button } from "@repo/ui/components/button"
 import { Separator } from "@repo/ui/components/separator"
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
+  useSidebar,
 } from "@repo/ui/components/sidebar"
 import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router"
 
@@ -56,10 +58,11 @@ function DashboardLayout() {
   if (isLoading) {
     return (
       <div className="flex min-h-svh items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="size-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-          <p className="text-muted-foreground">Loading...</p>
-        </div>
+        <img
+          src={logo}
+          alt="Apotek Asasi"
+          className="h-24 w-auto animate-pulse-opacity"
+        />
       </div>
     )
   }
@@ -73,26 +76,43 @@ function DashboardLayout() {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex h-14 shrink-0 items-center justify-between border-b bg-background px-4 lg:px-6">
-          <div className="flex items-center gap-4">
-            <SidebarTrigger />
-          </div>
-          <div className="flex items-center gap-4">
-            {user && (
-              <span className="hidden text-xs text-muted-foreground sm:inline-block">
-                {user.email}
-              </span>
-            )}
-            <Separator orientation="vertical" className="hidden h-6 sm:block" />
-            <Button variant="outline" size="sm" onClick={handleLogout}>
-              Logout
-            </Button>
-          </div>
-        </header>
+        <MainHeader user={user} handleLogout={handleLogout} />
         <main className="flex-1 p-4 lg:p-6">
           <Outlet />
         </main>
       </SidebarInset>
     </SidebarProvider>
+  )
+}
+
+function MainHeader({
+  user,
+  handleLogout,
+}: {
+  user: { email: string } | null
+  handleLogout: () => void
+}) {
+  const { state } = useSidebar()
+
+  return (
+    <header
+      className={`flex h-16 shrink-0 items-center justify-between bg-primary px-4 text-primary-foreground transition-all duration-200 lg:px-6 ${state === "collapsed" ? "rounded-br-2xl rounded-bl-2xl" : "rounded-br-2xl"}`}
+    >
+      <div className="flex items-center gap-4">
+        <SidebarTrigger className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground" />
+      </div>
+      <div className="flex items-center gap-4">
+        {user && (
+          <span className="hidden text-xs sm:inline-block">{user.email}</span>
+        )}
+        <Separator
+          orientation="vertical"
+          className="hidden h-8 bg-primary-foreground/30 sm:block"
+        />
+        <Button variant="secondary" size="sm" onClick={handleLogout}>
+          Logout
+        </Button>
+      </div>
+    </header>
   )
 }

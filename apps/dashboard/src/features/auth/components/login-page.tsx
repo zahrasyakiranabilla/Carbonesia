@@ -1,14 +1,9 @@
 /* eslint-disable react/no-children-prop */
 "use client"
 
+import logo from "@repo/assets/images/logo-apotek.png"
 import { Button } from "@repo/ui/components/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@repo/ui/components/card"
+import { Card, CardContent, CardHeader } from "@repo/ui/components/card"
 import {
   Field,
   FieldError,
@@ -75,13 +70,13 @@ export function LoginPage({ redirect }: { redirect?: string }) {
   const isLoading = form.state.isSubmitting
 
   return (
-    <div className="flex min-h-svh items-center justify-center p-6">
+    <div
+      className="flex min-h-svh items-center justify-center bg-cover bg-center bg-no-repeat p-6"
+      style={{ backgroundImage: "url('/images/login-background.png')" }}
+    >
       <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-xl">Login Admin</CardTitle>
-          <CardDescription>
-            Masukkan email dan kata sandi untuk mengakses dashboard
-          </CardDescription>
+        <CardHeader className="flex items-center justify-center">
+          <img src={logo} alt="Apotek Asasi" className="h-16 w-auto" />
         </CardHeader>
         <CardContent>
           <form
