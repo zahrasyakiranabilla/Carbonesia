@@ -78,12 +78,6 @@ function CreateEmployeePage() {
 
       {/* Form */}
       <Card>
-        <CardHeader>
-          <CardTitle>Informasi Karyawan</CardTitle>
-          <CardDescription>
-            Isi formulir di bawah untuk menambahkan karyawan baru
-          </CardDescription>
-        </CardHeader>
         <CardContent>
           <EmployeeForm
             key={formKey}
