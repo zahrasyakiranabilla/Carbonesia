@@ -1,14 +1,14 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
 import {
   Field,
-  FieldLabel,
+  FieldContent,
   FieldDescription,
   FieldError,
-  FieldGroup,
-  FieldContent,
+  FieldGroup as FieldGroupComponent,
+  FieldLabel,
   FieldSeparator,
-} from "@repo/ui/components/field";
-import { Input } from "@repo/ui/components/input";
+} from "@repo/ui/components/field"
+import { Input } from "@repo/ui/components/input"
+import type { Meta, StoryObj } from "@storybook/react-vite"
 
 const meta = {
   title: "Components/Field",
@@ -20,10 +20,10 @@ const meta = {
       options: ["vertical", "horizontal", "responsive"],
     },
   },
-} satisfies Meta<typeof Field>;
+} satisfies Meta<typeof Field>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   render: () => (
@@ -32,7 +32,7 @@ export const Default: Story = {
       <Input type="text" placeholder="Enter username" />
     </Field>
   ),
-};
+}
 
 export const Horizontal: Story = {
   args: {
@@ -44,7 +44,7 @@ export const Horizontal: Story = {
       <Input type="email" placeholder="Enter email" />
     </Field>
   ),
-};
+}
 
 export const Responsive: Story = {
   args: {
@@ -56,7 +56,7 @@ export const Responsive: Story = {
       <Input type="tel" placeholder="Enter phone number" />
     </Field>
   ),
-};
+}
 
 export const WithDescription: Story = {
   render: () => (
@@ -64,13 +64,11 @@ export const WithDescription: Story = {
       <FieldLabel>Password</FieldLabel>
       <FieldContent>
         <Input type="password" placeholder="Enter password" />
-        <FieldDescription>
-          Must be at least 8 characters long
-        </FieldDescription>
+        <FieldDescription>Must be at least 8 characters long</FieldDescription>
       </FieldContent>
     </Field>
   ),
-};
+}
 
 export const WithError: Story = {
   render: () => (
@@ -82,7 +80,7 @@ export const WithError: Story = {
       </FieldContent>
     </Field>
   ),
-};
+}
 
 export const WithMultipleErrors: Story = {
   render: () => (
@@ -100,7 +98,7 @@ export const WithMultipleErrors: Story = {
       </FieldContent>
     </Field>
   ),
-};
+}
 
 export const Disabled: Story = {
   render: () => (
@@ -109,11 +107,11 @@ export const Disabled: Story = {
       <Input type="text" defaultValue="Cannot edit this" disabled />
     </Field>
   ),
-};
+}
 
 export const FieldGroup: Story = {
   render: () => (
-    <FieldGroup>
+    <FieldGroupComponent>
       <Field>
         <FieldLabel>First Name</FieldLabel>
         <Input type="text" placeholder="Enter first name" />
@@ -126,13 +124,13 @@ export const FieldGroup: Story = {
         <FieldLabel>Email</FieldLabel>
         <Input type="email" placeholder="Enter email" />
       </Field>
-    </FieldGroup>
+    </FieldGroupComponent>
   ),
-};
+}
 
 export const WithSeparator: Story = {
   render: () => (
-    <FieldGroup>
+    <FieldGroupComponent>
       <Field>
         <FieldLabel>Username</FieldLabel>
         <Input type="text" placeholder="Enter username" />
@@ -142,14 +140,14 @@ export const WithSeparator: Story = {
         <FieldLabel>Email</FieldLabel>
         <Input type="email" placeholder="Enter email" />
       </Field>
-    </FieldGroup>
+    </FieldGroupComponent>
   ),
-};
+}
 
 export const CompleteForm: Story = {
   render: () => (
     <div className="w-full max-w-md space-y-4">
-      <FieldGroup>
+      <FieldGroupComponent>
         <Field>
           <FieldLabel>First Name</FieldLabel>
           <Input type="text" placeholder="Enter first name" />
@@ -158,7 +156,7 @@ export const CompleteForm: Story = {
           <FieldLabel>Last Name</FieldLabel>
           <Input type="text" placeholder="Enter last name" />
         </Field>
-      </FieldGroup>
+      </FieldGroupComponent>
       <FieldSeparator>Contact Information</FieldSeparator>
       <Field>
         <FieldLabel>Email</FieldLabel>
@@ -167,7 +165,9 @@ export const CompleteForm: Story = {
       <Field>
         <FieldLabel>Phone</FieldLabel>
         <Input type="tel" placeholder="Enter phone number" />
-        <FieldDescription>We'll only use this for account verification</FieldDescription>
+        <FieldDescription>
+          We'll only use this for account verification
+        </FieldDescription>
       </Field>
       <Field>
         <FieldLabel>Password</FieldLabel>
@@ -181,27 +181,27 @@ export const CompleteForm: Story = {
       </Field>
     </div>
   ),
-};
+}
 
 export const AllOrientations: Story = {
   render: () => (
     <div className="space-y-8">
       <div>
-        <h4 className="text-sm font-medium mb-4">Vertical (default)</h4>
+        <h4 className="mb-4 text-sm font-medium">Vertical (default)</h4>
         <Field orientation="vertical">
           <FieldLabel>Username</FieldLabel>
           <Input type="text" placeholder="Enter username" />
         </Field>
       </div>
       <div>
-        <h4 className="text-sm font-medium mb-4">Horizontal</h4>
+        <h4 className="mb-4 text-sm font-medium">Horizontal</h4>
         <Field orientation="horizontal">
           <FieldLabel>Email</FieldLabel>
           <Input type="email" placeholder="Enter email" />
         </Field>
       </div>
       <div>
-        <h4 className="text-sm font-medium mb-4">Responsive</h4>
+        <h4 className="mb-4 text-sm font-medium">Responsive</h4>
         <Field orientation="responsive">
           <FieldLabel>Phone</FieldLabel>
           <Input type="tel" placeholder="Enter phone" />
@@ -209,4 +209,4 @@ export const AllOrientations: Story = {
       </div>
     </div>
   ),
-};
+}
