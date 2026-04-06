@@ -17,6 +17,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@repo/ui/components/sidebar"
 import { Link, useRouterState } from "@tanstack/react-router"
 
@@ -45,6 +46,7 @@ const navItems: NavItem[] = [
 export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
   const routerState = useRouterState()
   const { user } = useAuth()
+  const { state } = useSidebar()
 
   const visibleNavItems = React.useMemo(() => {
     return navItems.filter((item) => {
@@ -55,7 +57,9 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
 
   return (
     <Sidebar {...props}>
-      <SidebarHeader className="h-14 justify-center rounded-none border-t-0 border-b bg-secondary/50 p-0 px-4">
+      <SidebarHeader
+        className={`h-16 justify-center border-t-0 border-b bg-secondary/50 p-0 px-4 ${state === "collapsed" ? "rounded-br-2xl rounded-bl-2xl" : "rounded-bl-2xl"}`}
+      >
         <div className="flex h-full items-center px-2">
           <h1 className="text-sm font-semibold">Dashboard</h1>
         </div>
