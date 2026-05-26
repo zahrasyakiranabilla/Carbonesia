@@ -32,46 +32,57 @@
     overflow-x: hidden;
   }
 
-  /* TOPBAR */
+  /* ── TOPBAR ── */
   .topbar {
     position: sticky; top: 0; z-index: 100;
     background: var(--forest);
-    padding: 0 32px;
+    padding: 0 20px;
     display: flex; align-items: center; justify-content: space-between;
     height: 56px;
     border-bottom: 2px solid var(--moss);
+    gap: 12px;
   }
 
   .logo {
-    display: flex; align-items: center; gap: 10px;
+    display: flex; align-items: center; gap: 8px;
     font-family: 'Fraunces', serif;
-    font-size: 22px; font-weight: 700;
+    font-size: 20px; font-weight: 700;
     color: var(--lime);
     letter-spacing: -0.3px;
+    flex-shrink: 0;
   }
 
   .logo-icon {
-    width: 32px; height: 32px;
+    width: 30px; height: 30px;
     background: var(--lime);
     border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
+    font-size: 16px;
+    flex-shrink: 0;
   }
 
   .nav-tabs {
     display: flex; gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    flex-shrink: 1;
+    min-width: 0;
   }
+  .nav-tabs::-webkit-scrollbar { display: none; }
 
   .nav-tab {
-    padding: 6px 16px;
+    padding: 6px 12px;
     border-radius: 20px;
     border: none;
     background: transparent;
     color: rgba(255,255,255,0.6);
     font-family: 'DM Sans', sans-serif;
-    font-size: 14px; font-weight: 500;
+    font-size: 13px; font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .nav-tab.active {
@@ -85,20 +96,23 @@
   .nav-badge {
     background: var(--gold); color: var(--forest);
     font-size: 10px; font-weight: 700;
-    padding: 2px 6px; border-radius: 10px;
-    margin-left: 4px;
+    padding: 2px 5px; border-radius: 10px;
+    margin-left: 3px;
   }
 
-  /* PAGES */
+  /* ── PAGES ── */
   .page { display: none; animation: fadeIn 0.3s ease; }
   .page.active { display: block; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* ── PAGE 1: KALKULATOR ── */
+  /* ── HERO SECTIONS ── */
+  .calc-hero, .market-header, .dash-header {
+    padding: 28px 20px 24px;
+    position: relative; overflow: hidden;
+  }
+
   .calc-hero {
     background: linear-gradient(135deg, var(--forest) 0%, var(--moss) 60%, #3d6e35 100%);
-    padding: 40px 32px 32px;
-    position: relative; overflow: hidden;
   }
 
   .calc-hero::before {
@@ -110,7 +124,8 @@
 
   .hero-title {
     font-family: 'Fraunces', serif;
-    font-size: 28px; font-weight: 700;
+    font-size: clamp(20px, 5vw, 28px);
+    font-weight: 700;
     color: var(--white);
     line-height: 1.2;
     margin-bottom: 6px;
@@ -119,55 +134,72 @@
 
   .hero-sub {
     color: rgba(255,255,255,0.7);
-    font-size: 14px;
+    font-size: clamp(12px, 3vw, 14px);
     position: relative;
   }
 
+  /* ── LAYOUT BODIES ── */
   .calc-body {
     max-width: 960px; margin: 0 auto;
-    padding: 28px 32px;
+    padding: 20px 16px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 24px;
+    gap: 16px;
   }
 
+  .market-body {
+    max-width: 960px; margin: 0 auto;
+    padding: 20px 16px;
+  }
+
+  .dash-body {
+    max-width: 960px; margin: 0 auto;
+    padding: 20px 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  /* ── CARDS ── */
   .card {
     background: white;
     border: 1.5px solid var(--border);
     border-radius: 16px;
-    padding: 24px;
+    padding: 20px;
     box-shadow: 0 2px 12px var(--shadow);
   }
 
   .card-title {
     font-family: 'Fraunces', serif;
-    font-size: 16px; font-weight: 600;
+    font-size: 15px; font-weight: 600;
     color: var(--forest);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     display: flex; align-items: center; gap: 8px;
   }
 
   .card-title-icon {
-    width: 28px; height: 28px;
+    width: 26px; height: 26px;
     background: var(--mist);
     border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 14px;
+    font-size: 13px;
+    flex-shrink: 0;
   }
 
-  .form-group { margin-bottom: 16px; }
+  /* ── FORM ── */
+  .form-group { margin-bottom: 14px; }
 
   .form-label {
     display: block;
-    font-size: 12px; font-weight: 600;
+    font-size: 11px; font-weight: 600;
     color: var(--text-light);
     text-transform: uppercase; letter-spacing: 0.6px;
-    margin-bottom: 6px;
+    margin-bottom: 5px;
   }
 
   .form-input, .form-select {
     width: 100%;
-    padding: 10px 14px;
+    padding: 10px 12px;
     border: 1.5px solid var(--border);
     border-radius: 10px;
     background: var(--white);
@@ -175,6 +207,7 @@
     font-size: 14px; color: var(--text);
     transition: border-color 0.2s;
     appearance: none;
+    -webkit-appearance: none;
   }
 
   .form-input:focus, .form-select:focus {
@@ -202,18 +235,20 @@
     transition: all 0.2s;
     margin-top: 8px;
     display: flex; align-items: center; justify-content: center; gap: 8px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
 
   .btn-calc:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(74,140,63,0.35); }
   .btn-calc:active { transform: translateY(0); }
 
-  /* RESULT CARDS */
-  .result-grid { display: flex; flex-direction: column; gap: 12px; }
+  /* ── HASIL ── */
+  .result-grid { display: flex; flex-direction: column; gap: 10px; }
 
   .result-stat {
     background: var(--mist);
     border-radius: 12px;
-    padding: 16px;
+    padding: 14px;
     border: 1px solid var(--border);
   }
 
@@ -225,25 +260,25 @@
 
   .result-value {
     font-family: 'Fraunces', serif;
-    font-size: 28px; font-weight: 700;
+    font-size: clamp(22px, 5vw, 28px); font-weight: 700;
     color: var(--forest);
     line-height: 1;
     transition: all 0.5s cubic-bezier(0.34,1.56,0.64,1);
   }
 
-  .result-unit { font-size: 13px; font-weight: 400; color: var(--text-light); margin-left: 4px; }
+  .result-unit { font-size: 12px; font-weight: 400; color: var(--text-light); margin-left: 4px; }
   .result-note { font-size: 11px; color: var(--text-light); margin-top: 4px; }
 
-  /* SCORE BAR */
+  /* ── SCORE ── */
   .score-section { margin-top: 4px; }
   .score-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
   .score-number {
     font-family: 'Fraunces', serif;
-    font-size: 32px; font-weight: 700; color: var(--forest);
+    font-size: 30px; font-weight: 700; color: var(--forest);
   }
   .score-badge {
-    padding: 4px 12px; border-radius: 20px;
-    font-size: 12px; font-weight: 600;
+    padding: 4px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 600;
   }
   .badge-eligible { background: #d4edda; color: #1a5928; }
   .badge-partial { background: #fff3cd; color: #7d5a00; }
@@ -260,7 +295,7 @@
     width: 0%;
   }
   .score-detail {
-    margin-top: 12px;
+    margin-top: 10px;
     display: grid; grid-template-columns: 1fr 1fr;
     gap: 6px;
   }
@@ -273,31 +308,28 @@
   .score-item-val { font-weight: 600; color: var(--forest); }
 
   .empty-state {
-    text-align: center; padding: 32px 16px;
+    text-align: center; padding: 28px 16px;
     color: var(--text-light);
   }
-  .empty-icon { font-size: 40px; margin-bottom: 10px; opacity: 0.4; }
-  .empty-text { font-size: 13px; }
+  .empty-icon { font-size: 36px; margin-bottom: 10px; opacity: 0.4; }
+  .empty-text { font-size: 13px; line-height: 1.6; }
 
-  /* ── PAGE 2: MARKETPLACE ── */
+  /* ── MARKETPLACE ── */
   .market-header {
     background: linear-gradient(135deg, var(--soil) 0%, #7a4f2a 100%);
-    padding: 32px;
-    position: relative; overflow: hidden;
   }
   .market-header::before {
-    content: '🌍'; font-size: 120px; opacity: 0.08;
-    position: absolute; right: 24px; top: -10px;
-  }
-
-  .market-body {
-    max-width: 960px; margin: 0 auto;
-    padding: 28px 32px;
+    content: '🌍'; font-size: 100px; opacity: 0.08;
+    position: absolute; right: 16px; top: -8px;
   }
 
   .filter-row {
-    display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;
+    display: flex; gap: 8px; margin-bottom: 16px;
+    overflow-x: auto; scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
   }
+  .filter-row::-webkit-scrollbar { display: none; }
 
   .filter-chip {
     padding: 6px 14px; border-radius: 20px;
@@ -305,19 +337,28 @@
     background: white; color: var(--text-light);
     font-size: 13px; font-weight: 500;
     cursor: pointer; transition: all 0.2s;
+    white-space: nowrap; flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   .filter-chip.active { background: var(--forest); color: white; border-color: var(--forest); }
   .filter-chip:hover:not(.active) { border-color: var(--leaf); color: var(--leaf); }
 
-  .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .market-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
 
   .market-card {
     background: white;
     border: 1.5px solid var(--border);
-    border-radius: 16px; padding: 20px;
+    border-radius: 16px; padding: 16px;
     transition: all 0.2s;
     cursor: pointer;
     position: relative; overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   .market-card::before {
     content: '';
@@ -329,23 +370,23 @@
   .market-card:hover { box-shadow: 0 6px 24px var(--shadow); transform: translateY(-2px); border-color: var(--leaf); }
   .market-card:hover::before { transform: scaleX(1); }
 
-  .market-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-  .market-desa { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 600; color: var(--forest); }
-  .market-loc { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+  .market-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; gap: 8px; }
+  .market-desa { font-family: 'Fraunces', serif; font-size: 14px; font-weight: 600; color: var(--forest); line-height: 1.3; }
+  .market-loc { font-size: 11px; color: var(--text-light); margin-top: 2px; }
   .market-price-tag {
-    background: var(--mist); border-radius: 8px; padding: 6px 10px; text-align: right;
+    background: var(--mist); border-radius: 8px; padding: 5px 8px; text-align: right; flex-shrink: 0;
   }
-  .market-price { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700; color: var(--moss); }
+  .market-price { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 700; color: var(--moss); }
   .market-price-sub { font-size: 10px; color: var(--text-light); }
 
-  .market-stats { display: flex; gap: 12px; margin-bottom: 12px; }
-  .market-stat { flex: 1; text-align: center; background: var(--mist); border-radius: 8px; padding: 8px 6px; }
-  .market-stat-val { font-size: 14px; font-weight: 700; color: var(--forest); }
+  .market-stats { display: flex; gap: 8px; margin-bottom: 10px; }
+  .market-stat { flex: 1; text-align: center; background: var(--mist); border-radius: 8px; padding: 6px 4px; }
+  .market-stat-val { font-size: 13px; font-weight: 700; color: var(--forest); }
   .market-stat-lbl { font-size: 10px; color: var(--text-light); margin-top: 1px; }
 
-  .market-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+  .market-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 12px; }
   .tag {
-    padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 500;
+    padding: 3px 7px; border-radius: 6px; font-size: 10px; font-weight: 500;
     background: #e8f5e9; color: #2e7d32;
   }
   .tag.mangrove { background: #e0f2f1; color: #00695c; }
@@ -354,72 +395,67 @@
   .tag.agroforestri { background: #fce4ec; color: #880e4f; }
 
   .btn-connect {
-    width: 100%; padding: 10px;
+    width: 100%; padding: 9px;
     background: white; color: var(--forest);
     border: 2px solid var(--forest); border-radius: 10px;
-    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600;
+    font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600;
     cursor: pointer; transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   .btn-connect:hover { background: var(--forest); color: white; }
 
-  /* ── PAGE 3: DASHBOARD ── */
+  /* ── DASHBOARD ── */
   .dash-header {
     background: linear-gradient(135deg, #1a2e40 0%, #243b55 100%);
-    padding: 32px;
-  }
-
-  .dash-body {
-    max-width: 960px; margin: 0 auto;
-    padding: 28px 32px;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
   }
 
   .kpi-row {
     grid-column: 1 / -1;
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
   }
 
   .kpi-card {
     background: white; border: 1.5px solid var(--border);
-    border-radius: 14px; padding: 18px;
+    border-radius: 14px; padding: 16px;
   }
-  .kpi-icon { font-size: 22px; margin-bottom: 10px; }
-  .kpi-val { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 700; color: var(--forest); }
-  .kpi-lbl { font-size: 11px; color: var(--text-light); margin-top: 2px; font-weight: 500; }
+  .kpi-icon { font-size: 20px; margin-bottom: 8px; }
+  .kpi-val { font-family: 'Fraunces', serif; font-size: clamp(18px, 4vw, 26px); font-weight: 700; color: var(--forest); }
+  .kpi-lbl { font-size: 11px; color: var(--text-light); margin-top: 2px; font-weight: 500; line-height: 1.3; }
   .kpi-delta { font-size: 11px; color: #2e7d32; font-weight: 600; margin-top: 6px; }
 
   .progress-card { grid-column: 1 / -1; }
-  .step-list { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+  .step-list { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
   .step-item {
-    display: flex; align-items: center; gap: 14px;
-    padding: 12px 16px; border-radius: 10px;
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px; border-radius: 10px;
     background: var(--mist); border: 1px solid var(--border);
     transition: all 0.2s;
   }
   .step-item.done { background: #e8f5e9; border-color: #a5d6a7; }
   .step-item.active-step { background: #fff8e1; border-color: #ffe082; }
   .step-num {
-    width: 28px; height: 28px; border-radius: 50%;
+    width: 26px; height: 26px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 700; flex-shrink: 0;
+    font-size: 12px; font-weight: 700; flex-shrink: 0;
   }
   .step-item.done .step-num { background: #4caf50; color: white; }
   .step-item.active-step .step-num { background: #ffc107; color: var(--forest); }
   .step-item:not(.done):not(.active-step) .step-num { background: var(--border); color: var(--text-light); }
-  .step-info { flex: 1; }
-  .step-title { font-size: 14px; font-weight: 600; color: var(--text); }
-  .step-desc { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+  .step-info { flex: 1; min-width: 0; }
+  .step-title { font-size: 13px; font-weight: 600; color: var(--text); }
+  .step-desc { font-size: 11px; color: var(--text-light); margin-top: 2px; line-height: 1.4; }
   .step-status {
-    font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 10px;
+    font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 10px;
+    flex-shrink: 0; white-space: nowrap;
   }
   .step-item.done .step-status { background: #c8e6c9; color: #1b5e20; }
   .step-item.active-step .step-status { background: #fff3e0; color: #e65100; }
   .step-item:not(.done):not(.active-step) .step-status { background: var(--border); color: var(--text-light); }
 
-  .activity-card {}
   .activity-list { margin-top: 4px; }
   .activity-item {
-    display: flex; align-items: flex-start; gap: 12px;
+    display: flex; align-items: flex-start; gap: 10px;
     padding: 10px 0; border-bottom: 1px solid var(--mist);
   }
   .activity-item:last-child { border-bottom: none; }
@@ -427,59 +463,165 @@
     width: 8px; height: 8px; border-radius: 50%;
     margin-top: 5px; flex-shrink: 0;
   }
-  .activity-text { font-size: 13px; color: var(--text); }
+  .activity-text { font-size: 13px; color: var(--text); line-height: 1.4; }
   .activity-time { font-size: 11px; color: var(--text-light); margin-top: 2px; }
 
-  /* MODAL */
+  /* ── MODAL ── */
   .modal-overlay {
     display: none; position: fixed; inset: 0;
     background: rgba(26,58,31,0.6); backdrop-filter: blur(4px);
-    z-index: 1000; align-items: center; justify-content: center;
+    z-index: 1000; align-items: flex-end; justify-content: center;
+    padding: 0;
   }
   .modal-overlay.show { display: flex; }
+
   .modal {
-    background: white; border-radius: 20px;
-    width: 90%; max-width: 480px;
-    padding: 28px; box-shadow: 0 24px 60px rgba(0,0,0,0.25);
-    animation: modalIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    background: white; border-radius: 20px 20px 0 0;
+    width: 100%; max-width: 520px;
+    padding: 24px 20px;
+    box-shadow: 0 -8px 40px rgba(0,0,0,0.2);
+    animation: modalUp 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    max-height: 90vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
-  @keyframes modalIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-  .modal-title { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 700; color: var(--forest); margin-bottom: 16px; }
-  .modal-info { background: var(--mist); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
-  .modal-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+
+  @keyframes modalUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  .modal-title { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 700; color: var(--forest); margin-bottom: 14px; }
+  .modal-info { background: var(--mist); border-radius: 12px; padding: 14px; margin-bottom: 14px; }
+  .modal-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px; gap: 8px; }
   .modal-row:last-child { border-bottom: none; }
-  .modal-row-key { color: var(--text-light); }
-  .modal-row-val { font-weight: 600; color: var(--forest); }
+  .modal-row-key { color: var(--text-light); flex-shrink: 0; }
+  .modal-row-val { font-weight: 600; color: var(--forest); text-align: right; }
   .modal-actions { display: flex; gap: 10px; }
   .btn-primary {
-    flex: 1; padding: 11px; background: var(--forest); color: white;
+    flex: 1; padding: 12px; background: var(--forest); color: white;
     border: none; border-radius: 10px; font-family: 'DM Sans', sans-serif;
     font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   .btn-primary:hover { background: var(--moss); }
   .btn-secondary {
-    flex: 1; padding: 11px; background: white; color: var(--text);
+    flex: 1; padding: 12px; background: white; color: var(--text);
     border: 1.5px solid var(--border); border-radius: 10px; font-family: 'DM Sans', sans-serif;
     font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   .btn-secondary:hover { border-color: var(--text); }
 
-  /* TOAST */
+  /* ── TOAST ── */
   .toast {
     position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
     background: var(--forest); color: white;
-    padding: 12px 24px; border-radius: 30px;
-    font-size: 14px; font-weight: 500;
+    padding: 12px 20px; border-radius: 30px;
+    font-size: 13px; font-weight: 500;
     z-index: 2000; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
     white-space: nowrap;
+    max-width: calc(100vw - 32px);
+    white-space: normal;
+    text-align: center;
   }
   .toast.show { transform: translateX(-50%) translateY(0); }
 
-  /* RESPONSIVE */
-  @media (max-width: 700px) {
-    .calc-body, .market-grid, .dash-body { grid-template-columns: 1fr; }
+  /* ── BOTTOM NAV (mobile only) ── */
+  .bottom-nav {
+    display: none;
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--forest);
+    border-top: 2px solid var(--moss);
+    z-index: 99;
+    padding: 0;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .bottom-nav-inner {
+    display: flex;
+  }
+
+  .bottom-nav-btn {
+    flex: 1; padding: 10px 8px 8px;
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.55);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .bottom-nav-btn .bn-icon { font-size: 20px; }
+  .bottom-nav-btn.active { color: var(--lime); }
+  .bottom-nav-btn .bn-badge {
+    background: var(--gold); color: var(--forest);
+    font-size: 9px; font-weight: 700;
+    padding: 1px 5px; border-radius: 8px;
+    margin-top: -2px;
+  }
+
+  /* ── RESPONSIVE ── */
+
+  /* Tablet */
+  @media (max-width: 768px) {
+    .calc-body { grid-template-columns: 1fr; padding: 16px; gap: 14px; }
+    .market-grid { grid-template-columns: 1fr 1fr; }
+    .dash-body { grid-template-columns: 1fr; padding: 16px; }
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .progress-card { grid-column: 1; }
+  }
+
+  /* Mobile */
+  @media (max-width: 520px) {
+    /* Hide topbar nav, show bottom nav */
+    .nav-tabs { display: none; }
+    .bottom-nav { display: block; }
+
+    /* Add padding so content isn't behind bottom nav */
+    .page { padding-bottom: calc(60px + env(safe-area-inset-bottom)); }
+
+    .topbar { padding: 0 14px; }
+    .logo { font-size: 18px; }
+
+    .calc-hero, .market-header, .dash-header { padding: 20px 14px 18px; }
+    .calc-body, .market-body, .dash-body { padding: 14px; }
+
+    .card { padding: 16px; border-radius: 14px; }
+    .card-title { font-size: 14px; margin-bottom: 14px; }
+
+    .market-grid { grid-template-columns: 1fr; }
+
+    .kpi-row { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .kpi-card { padding: 14px; }
+
+    .step-item { padding: 10px 12px; gap: 10px; }
+    .step-desc { display: none; } /* hide on very small screens */
+
+    .score-detail { grid-template-columns: 1fr 1fr; }
+
+    .modal { border-radius: 20px 20px 0 0; padding: 20px 16px; }
+    .modal-title { font-size: 18px; }
+
+    .result-value { font-size: 22px; }
+
+    .filter-row { gap: 6px; }
+    .filter-chip { font-size: 12px; padding: 5px 11px; }
+  }
+
+  /* Very small */
+  @media (max-width: 360px) {
     .kpi-row { grid-template-columns: 1fr 1fr; }
-    .market-header::before { display: none; }
+    .kpi-val { font-size: 16px; }
+    .market-stat-val { font-size: 12px; }
+  }
+
+  /* Desktop — center modal */
+  @media (min-width: 521px) {
+    .modal-overlay { align-items: center; padding: 20px; }
+    .modal { border-radius: 20px; max-height: 85vh; }
+    @keyframes modalUp { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   }
 </style>
 </head>
@@ -492,13 +634,32 @@
     Carbonesia
   </div>
   <nav class="nav-tabs">
-    <button class="nav-tab active" onclick="switchPage('kalkulator', this)">Kalkulator</button>
-    <button class="nav-tab" onclick="switchPage('marketplace', this)">Marketplace <span class="nav-badge">12</span></button>
-    <button class="nav-tab" onclick="switchPage('dashboard', this)">Dashboard Desa</button>
+    <button class="nav-tab active" onclick="switchPage('kalkulator', this, 0)">Kalkulator</button>
+    <button class="nav-tab" onclick="switchPage('marketplace', this, 1)">Marketplace <span class="nav-badge">12</span></button>
+    <button class="nav-tab" onclick="switchPage('dashboard', this, 2)">Dashboard Desa</button>
   </nav>
 </header>
 
-<!-- ══════════ PAGE 1: KALKULATOR ══════════ -->
+<!-- BOTTOM NAV (mobile) -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <button class="bottom-nav-btn active" id="bn-0" onclick="switchPageMobile(0)">
+      <span class="bn-icon">🌿</span>
+      <span>Kalkulator</span>
+    </button>
+    <button class="bottom-nav-btn" id="bn-1" onclick="switchPageMobile(1)">
+      <span class="bn-icon">🤝</span>
+      <span>Marketplace</span>
+      <span class="bn-badge">12</span>
+    </button>
+    <button class="bottom-nav-btn" id="bn-2" onclick="switchPageMobile(2)">
+      <span class="bn-icon">📊</span>
+      <span>Dashboard</span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══ PAGE 1: KALKULATOR ══ -->
 <div id="page-kalkulator" class="page active">
   <div class="calc-hero">
     <div class="hero-title">Hitung Potensi Karbon Kredit Desa Anda</div>
@@ -506,7 +667,6 @@
   </div>
 
   <div class="calc-body">
-    <!-- FORM INPUT -->
     <div class="card">
       <div class="card-title">
         <div class="card-title-icon">📋</div>
@@ -552,7 +712,7 @@
 
       <div class="form-group">
         <label class="form-label">Luas Lahan (Hektar)</label>
-        <input class="form-input" id="inp-luas" type="number" min="1" max="99999" placeholder="cth. 120">
+        <input class="form-input" id="inp-luas" type="number" inputmode="numeric" min="1" max="99999" placeholder="cth. 120">
       </div>
 
       <div class="form-group">
@@ -568,16 +728,16 @@
       </div>
 
       <div class="form-group">
-        <label class="form-label">Co-Benefits (Pilih semua yang sesuai)</label>
-        <div style="display:flex;flex-direction:column;gap:6px;margin-top:6px;">
-          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
-            <input type="checkbox" id="cb-biodiversity" style="accent-color:var(--leaf);"> Ada keanekaragaman hayati tinggi (+15%)
+        <label class="form-label">Co-Benefits</label>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px;">
+          <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer;padding:8px 10px;background:var(--mist);border-radius:8px;border:1px solid var(--border);">
+            <input type="checkbox" id="cb-biodiversity" style="accent-color:var(--leaf);width:16px;height:16px;"> Keanekaragaman hayati tinggi (+15%)
           </label>
-          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
-            <input type="checkbox" id="cb-adat" style="accent-color:var(--leaf);"> Kawasan komunitas adat (+20%)
+          <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer;padding:8px 10px;background:var(--mist);border-radius:8px;border:1px solid var(--border);">
+            <input type="checkbox" id="cb-adat" style="accent-color:var(--leaf);width:16px;height:16px;"> Kawasan komunitas adat (+20%)
           </label>
-          <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
-            <input type="checkbox" id="cb-organik" style="accent-color:var(--leaf);"> Tersertifikasi organik (+10%)
+          <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer;padding:8px 10px;background:var(--mist);border-radius:8px;border:1px solid var(--border);">
+            <input type="checkbox" id="cb-organik" style="accent-color:var(--leaf);width:16px;height:16px;"> Tersertifikasi organik (+10%)
           </label>
         </div>
       </div>
@@ -587,7 +747,6 @@
       </button>
     </div>
 
-    <!-- HASIL -->
     <div class="card">
       <div class="card-title">
         <div class="card-title-icon">📊</div>
@@ -606,13 +765,11 @@
             <div class="result-value" id="res-co2">—<span class="result-unit">ton/tahun</span></div>
             <div class="result-note" id="res-formula">—</div>
           </div>
-
           <div class="result-stat">
             <div class="result-label">Estimasi Nilai Pasar</div>
             <div class="result-value" id="res-usd">—<span class="result-unit">USD/tahun</span></div>
             <div class="result-note">@ $<span id="res-harga">10</span>/ton karbon kredit</div>
           </div>
-
           <div class="result-stat" style="background:linear-gradient(135deg,#e8f5e9,#f1f8e9);">
             <div class="result-label">Potensi Pendapatan Desa</div>
             <div class="result-value" style="color:var(--moss);" id="res-idr">—</div>
@@ -620,7 +777,7 @@
           </div>
         </div>
 
-        <div style="margin-top:16px;">
+        <div style="margin-top:14px;">
           <div class="result-label" style="margin-bottom:10px;">Skor Kelayakan Pendaftaran</div>
           <div class="score-section">
             <div class="score-row">
@@ -634,7 +791,7 @@
           </div>
         </div>
 
-        <button class="btn-calc" style="margin-top:16px;" onclick="lihatMarketplace()">
+        <button class="btn-calc" style="margin-top:14px;" onclick="lihatMarketplace()">
           <span>🤝</span> Cocokkan dengan Buyer Korporat
         </button>
       </div>
@@ -642,11 +799,11 @@
   </div>
 </div>
 
-<!-- ══════════ PAGE 2: MARKETPLACE ══════════ -->
+<!-- ══ PAGE 2: MARKETPLACE ══ -->
 <div id="page-marketplace" class="page">
   <div class="market-header">
     <div class="hero-title" style="color:white;font-family:'Fraunces',serif;">Carbon Marketplace</div>
-    <div class="hero-sub" style="color:rgba(255,255,255,0.7);">Menghubungkan karbon kredit desa dengan pembeli korporat</div>
+    <div class="hero-sub">Menghubungkan karbon kredit desa dengan pembeli korporat</div>
   </div>
 
   <div class="market-body">
@@ -657,12 +814,11 @@
       <button class="filter-chip" onclick="filterMarket('hutan', this)">🌲 Hutan Sekunder</button>
       <button class="filter-chip" onclick="filterMarket('agroforestri', this)">🌾 Agroforestri</button>
     </div>
-
     <div class="market-grid" id="market-grid"></div>
   </div>
 </div>
 
-<!-- ══════════ PAGE 3: DASHBOARD ══════════ -->
+<!-- ══ PAGE 3: DASHBOARD ══ -->
 <div id="page-dashboard" class="page">
   <div class="dash-header">
     <div class="hero-title">Dashboard Desa</div>
@@ -743,7 +899,7 @@
       </div>
     </div>
 
-    <div class="card activity-card">
+    <div class="card">
       <div class="card-title"><div class="card-title-icon">🔔</div>Aktivitas Terbaru</div>
       <div class="activity-list">
         <div class="activity-item">
@@ -786,27 +942,27 @@
 
     <div class="card">
       <div class="card-title"><div class="card-title-icon">📈</div>Proyeksi Pendapatan</div>
-      <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--mist);">
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--mist);gap:8px;">
           <div>
             <div style="font-size:13px;font-weight:600;">Tahun 1 (2025)</div>
             <div style="font-size:11px;color:var(--text-light);">Pasca-sertifikasi, transaksi pertama</div>
           </div>
-          <div style="font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--moss);">Rp 48 Jt</div>
+          <div style="font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--moss);flex-shrink:0;">Rp 48 Jt</div>
         </div>
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--mist);">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--mist);gap:8px;">
           <div>
             <div style="font-size:13px;font-weight:600;">Tahun 2 (2026)</div>
             <div style="font-size:11px;color:var(--text-light);">Full capacity + premium co-benefits</div>
           </div>
-          <div style="font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--moss);">Rp 96 Jt</div>
+          <div style="font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--moss);flex-shrink:0;">Rp 96 Jt</div>
         </div>
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;gap:8px;">
           <div>
             <div style="font-size:13px;font-weight:600;">Tahun 3 (2027)</div>
             <div style="font-size:11px;color:var(--text-light);">Ekspansi lahan + harga karbon naik</div>
           </div>
-          <div style="font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--moss);">Rp 140 Jt</div>
+          <div style="font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--moss);flex-shrink:0;">Rp 140 Jt</div>
         </div>
       </div>
     </div>
@@ -829,9 +985,6 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ══════════════════════════════════════
-// DATA & KONSTANTA
-// ══════════════════════════════════════
 const FAKTOR = {
   mangrove:     { min: 6, max: 8, label: 'Mangrove', emoji: '🌊' },
   gambut:       { min: 4, max: 6, label: 'Gambut',   emoji: '🟫' },
@@ -839,7 +992,7 @@ const FAKTOR = {
   agroforestri: { min: 1.5, max: 3.5, label: 'Agroforestri', emoji: '🌾' }
 };
 
-const HARGA_USD = 10; // USD per ton
+const HARGA_USD = 10;
 const KURS = 16000;
 
 const MARKET_DATA = [
@@ -854,21 +1007,39 @@ const MARKET_DATA = [
 ];
 
 let activeModal = null;
+let currentPageIndex = 0;
+const PAGE_NAMES = ['kalkulator', 'marketplace', 'dashboard'];
 
-// ══════════════════════════════════════
-// NAVIGASI
-// ══════════════════════════════════════
-function switchPage(name, btn) {
+function switchPage(name, btn, index) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
   btn.classList.add('active');
+  currentPageIndex = index;
+  updateBottomNav(index);
   if (name === 'marketplace') renderMarket('semua');
+  window.scrollTo(0, 0);
 }
 
-// ══════════════════════════════════════
-// ALGORITMA 1: IPCC TIER 1 CALCULATION
-// ══════════════════════════════════════
+function switchPageMobile(index) {
+  const name = PAGE_NAMES[index];
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  const tabs = document.querySelectorAll('.nav-tab');
+  if (tabs[index]) tabs[index].classList.add('active');
+  currentPageIndex = index;
+  updateBottomNav(index);
+  if (name === 'marketplace') renderMarket('semua');
+  window.scrollTo(0, 0);
+}
+
+function updateBottomNav(index) {
+  document.querySelectorAll('.bottom-nav-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', i === index);
+  });
+}
+
 function hitungKarbon() {
   const nama = document.getElementById('inp-nama').value.trim();
   const vegetasi = document.getElementById('inp-vegetasi').value;
@@ -882,11 +1053,8 @@ function hitungKarbon() {
 
   const faktor = FAKTOR[vegetasi];
   const faktorMid = (faktor.min + faktor.max) / 2;
-
-  // ALGORITMA 1: CO2 = Luas × Faktor Serapan × Kondisi Multiplier
   const co2 = Math.round(luas * faktorMid * kondisi);
 
-  // ALGORITMA 3: Valuasi + Premium Factor
   const cbBio = document.getElementById('cb-biodiversity').checked ? 0.15 : 0;
   const cbAdat = document.getElementById('cb-adat').checked ? 0.20 : 0;
   const cbOrg = document.getElementById('cb-organik').checked ? 0.10 : 0;
@@ -894,10 +1062,8 @@ function hitungKarbon() {
   const nilaiUSD = Math.round(co2 * HARGA_USD * premium);
   const nilaiIDR = nilaiUSD * KURS;
 
-  // ALGORITMA 2: WEIGHTED SCORING
   const skor = hitungSkor(vegetasi, luas, kondisi);
 
-  // UPDATE UI
   document.getElementById('empty-state').style.display = 'none';
   document.getElementById('hasil-section').style.display = 'block';
 
@@ -912,7 +1078,6 @@ function hitungKarbon() {
   document.getElementById('res-premium-note').textContent =
     premiumPct > 0 ? '🌟 Termasuk premium co-benefits +' + premiumPct + '%' : 'Harga dasar karbon pasar';
 
-  // Score display
   document.getElementById('score-num').textContent = skor.total;
   setTimeout(() => { document.getElementById('score-bar').style.width = skor.total + '%'; }, 100);
 
@@ -931,33 +1096,19 @@ function hitungKarbon() {
     `<div class="score-item"><div class="score-item-label">Luas Lahan (25%)</div><div class="score-item-val">${skor.l}/25</div></div>` +
     `<div class="score-item"><div class="score-item-label">Lokasi Strategis (20%)</div><div class="score-item-val">${skor.loc}/20</div></div>`;
 
-  showToast('✅ Kalkulasi berhasil — ' + (nama || 'Desa Anda') + ' berpotensi ' + formatIDR(nilaiIDR) + '/tahun');
+  showToast('✅ ' + (nama || 'Desa Anda') + ' berpotensi Rp ' + formatIDR(nilaiIDR) + '/tahun');
 }
 
-// ══════════════════════════════════════
-// ALGORITMA 2: WEIGHTED SCORING
-// ══════════════════════════════════════
 function hitungSkor(vegetasi, luas, kondisi) {
-  // Skor vegetasi (30 poin)
   const vegScore = { mangrove: 30, gambut: 25, hutan: 20, agroforestri: 15 };
   const v = vegScore[vegetasi] || 0;
-
-  // Skor kondisi lahan (25 poin)
   const k = kondisi === 1.0 ? 25 : kondisi === 0.7 ? 17 : 8;
-
-  // Skor luas lahan (25 poin) — normalized
   const l = luas >= 200 ? 25 : luas >= 100 ? 20 : luas >= 50 ? 15 : luas >= 20 ? 10 : 5;
-
-  // Skor lokasi strategis — default medium (bisa dikembangkan dengan GIS API)
   const loc = 14;
-
   const total = Math.min(100, v + k + l + loc);
   return { total, v, k, l, loc };
 }
 
-// ══════════════════════════════════════
-// MARKETPLACE
-// ══════════════════════════════════════
 function renderMarket(filter) {
   const grid = document.getElementById('market-grid');
   const data = filter === 'semua' ? MARKET_DATA : MARKET_DATA.filter(d => d.vegetasi === filter);
@@ -980,15 +1131,15 @@ function renderMarket(filter) {
         <div class="market-stats">
           <div class="market-stat">
             <div class="market-stat-val">${d.luas} ha</div>
-            <div class="market-stat-lbl">Luas Lahan</div>
+            <div class="market-stat-lbl">Luas</div>
           </div>
           <div class="market-stat">
             <div class="market-stat-val">${d.co2} ton</div>
-            <div class="market-stat-lbl">CO₂/tahun</div>
+            <div class="market-stat-lbl">CO₂/thn</div>
           </div>
           <div class="market-stat">
             <div class="market-stat-val">${d.skor}/100</div>
-            <div class="market-stat-lbl">Skor Vcs</div>
+            <div class="market-stat-lbl">Skor</div>
           </div>
         </div>
         <div class="market-tags">
@@ -1008,7 +1159,6 @@ function filterMarket(filter, btn) {
   renderMarket(filter);
 }
 
-// ALGORITMA 4: MATCHING
 function bukaModal(id) {
   const d = MARKET_DATA.find(x => x.id === id);
   if (!d) return;
@@ -1016,13 +1166,9 @@ function bukaModal(id) {
 
   const f = FAKTOR[d.vegetasi];
   const nilaiIDR = d.co2 * d.harga_usd * KURS;
-
-  // Match score calculation
   const matchScore = Math.min(100, Math.round(
-    (d.skor * 0.4) +            // Kualitas lahan
-    (Math.min(d.co2/20, 20)) +  // Volume match
-    (d.harga_usd >= 10 ? 20 : 15) + // Harga kompetitif
-    (d.buyer_minat.length * 6)  // Demand tinggi
+    (d.skor * 0.4) + (Math.min(d.co2/20, 20)) +
+    (d.harga_usd >= 10 ? 20 : 15) + (d.buyer_minat.length * 6)
   ));
 
   document.getElementById('modal-title').textContent = f.emoji + ' ' + d.desa;
@@ -1038,6 +1184,7 @@ function bukaModal(id) {
     <div class="modal-row"><span class="modal-row-key">Buyer Tertarik</span><span class="modal-row-val">${d.buyer_minat.join(', ')}</span></div>
   `;
   document.getElementById('modal-overlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
 }
 
 function closeModal(e) {
@@ -1046,6 +1193,7 @@ function closeModal(e) {
 
 function tutupModal() {
   document.getElementById('modal-overlay').classList.remove('show');
+  document.body.style.overflow = '';
   activeModal = null;
 }
 
@@ -1054,9 +1202,6 @@ function konfirmasiConnect() {
   showToast('🎉 Permintaan terkirim! Tim Carbonesia akan menghubungi dalam 2x24 jam');
 }
 
-// ══════════════════════════════════════
-// HELPERS
-// ══════════════════════════════════════
 function formatIDR(num) {
   if (num >= 1000000000) return (num/1000000000).toFixed(1) + ' M';
   if (num >= 1000000) return (num/1000000).toFixed(0) + ' Juta';
@@ -1087,11 +1232,7 @@ function updateFaktorInfo() {
 }
 
 function lihatMarketplace() {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('page-marketplace').classList.add('active');
-  document.querySelectorAll('.nav-tab')[1].classList.add('active');
-  renderMarket('semua');
+  switchPageMobile(1);
 }
 
 function showToast(msg) {
@@ -1101,7 +1242,6 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 3500);
 }
 
-// Init marketplace
 renderMarket('semua');
 </script>
 </body>
